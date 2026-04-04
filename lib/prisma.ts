@@ -10,7 +10,7 @@ const globalForPrisma = globalThis as unknown as {
 function createPrismaClient() {
   // Prisma 7 requires an adapter for SQLite
   // libsql client needs absolute file path with file:/// (triple slash)
-  const databaseUrl = process.env.DATABASE_URL || 'file:./dev.db'
+  const databaseUrl = (process.env.DATABASE_URL || 'file:./dev.db').replace(/[?&]channel_binding=[^&]+/, '')
 
   // Convert to absolute file:/// URL for libsql
   let absoluteDbUrl: string
