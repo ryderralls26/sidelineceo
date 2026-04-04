@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #1e293b;
+  --color-sporty-green: #16a34a;
+  --color-light-green: #22c55e;
+  --color-slate-bg: #0f172a;
+  --font-display: var(--font-playfair);
+  --font-sans: var(--font-inter);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: #1e293b;
+    color: #f1f5f9;
+  }
+
+  @media print {
+    body {
+      background: white;
+      color: black;
+    }
+
+    .print\:hidden {
+      display: none !important;
+    }
+
+    /* Hide navigation and other non-card elements when printing */
+    nav,
+    footer,
+    button:not(.division-badge),
+    .print\:hide {
+      display: none !important;
+    }
+
+    /* Ensure division borders are visible in print */
+    .border-2.border-black {
+      border: 2px solid black !important;
+    }
+
+    /* Ensure cards print in 4-up layout on portrait page */
+    #coach-card,
+    #referee-card {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Force 4 cards per page layout (2 columns x 2 rows) */
+    .print\:grid-cols-2 {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      grid-template-rows: repeat(2, auto) !important;
+      gap: 0.25rem !important;
+      page-break-after: always;
+    }
+
+    /* Optimize page margins for printing 4 cards on portrait 8.5" x 11" */
+    @page {
+      margin: 0.25in;
+      size: portrait;
+    }
+
+    /* Ensure proper card sizing for 4-up layout */
+    .grid.print\:grid-cols-2 > div {
+      width: 100%;
+      max-width: 100%;
+      transform: scale(0.95);
+      transform-origin: top left;
+    }
+
+    /* Scale down cards to fit 4 per page */
+    #coach-card,
+    #referee-card {
+      font-size: 0.75rem;
+      padding: 0.5rem;
+    }
+
+    #coach-card table,
+    #referee-card table {
+      font-size: 0.7rem;
+    }
+
+    /* Ensure input fields and textareas show their values in print */
+    input[type="text"],
+    textarea {
+      border: none !important;
+      background: transparent !important;
+      color: black !important;
+    }
+
+    /* Ensure awards section displays cleanly */
+    input::placeholder,
+    textarea::placeholder {
+      color: transparent !important;
+    }
+
+    /* Ensure images (including QR codes) print correctly */
+    img {
+      print-color-adjust: exact !important;
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    /* Ensure footer elements print with exact colors */
+    * {
+      print-color-adjust: exact !important;
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+  }
+}
