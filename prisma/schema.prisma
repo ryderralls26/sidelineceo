@@ -1,0 +1,431 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - Coaches, Parents, Players
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  password          String    // In production, this would be hashed
+  firstName         String
+  lastName          String
+  role              UserRole
+  isAdmin           Boolean   @default(false)
+  teamId            String?
+  emailVerified     DateTime?
+  verificationToken String?   @unique
+  createdAt         DateTime  @default(now())
+
+  // User Preferences (Notifications & Settings)
+  notifyGameFinalized     Boolean @default(true)
+  notifyInviteAccepted    Boolean @default(true)
+  showOnboardingTips      Boolean @default(true)
+
+  // Relations
+  teams            Team[]            @relation("CoachTeams")
+  team             Team?             @relation("TeamMembers", fields: [teamId], references: [id])
+  invitesSent      Invite[]          @relation("InvitesSent")
+  teamInvitesSent  TeamInvite[]      @relation("TeamInvitesSent")
+  awardsGiven      Award[]           @relation("AwardsGiven")
+  passwordResetToken PasswordResetToken?
+  parentProfile    Parent?
+  teamMemberships  TeamMembership[]  @relation("UserTeamMemberships")
+  notifications    Notification[]    @relation("UserNotifications")
+
+  @@index([email])
+  @@index([verificationToken])
+}
+
+enum UserRole {
+  coach
+  parent
+  player
+}
+
+// Team model
+model Team {
+  id        String   @id @default(cuid())
+  name      String
+  sport     Sport
+  division  Division?
+  season    Season
+  year      String
+  logoUrl   String?
+  coachId   String
+  createdAt DateTime @default(now())
+
+  // Team Settings (Display & Functionality)
+  showNickname                Boolean @default(false)
+  enable4QLock                Boolean @default(false)
+  showQuartersPlayed          Boolean @default(false)
+  enablePlayingTimeWarnings   Boolean @default(false)
+
+  // Relations
+  coach           User               @relation("CoachTeams", fields: [coachId], references: [id])
+  members         User[]             @relation("TeamMembers")
+  players         Player[]
+  games           Game[]
+  seasons         TeamSeason[]
+  memberships     TeamMembership[]
+  gameLineups     GameLineup[]
+  quartersPlayed  QuartersPlayed[]
+  awardTypes      AwardType[]
+  awards          Award[]
+  invites         Invite[]
+  teamInvites     TeamInvite[]
+
+  @@index([coachId])
+}
+
+enum Sport {
+  flag_football
+  soccer
+}
+
+enum Division {
+  KIND
+  FR
+  SO
+  JR
+  SR
+}
+
+enum Season {
+  fall
+  spring
+  summer
+}
+
+// TeamMembership model - Access control for multi-team support
+model TeamMembership {
+  id        String   @id @default(cuid())
+  userId    String
+  teamId    String
+  role      TeamRole
+  createdAt DateTime @default(now())
+
+  // Relations
+  user      User     @relation("UserTeamMemberships", fields: [userId], references: [id], onDelete: Cascade)
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, teamId])
+  @@index([userId])
+  @@index([teamId])
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  CO_COACH
+  VIEWER
+}
+
+// TeamSeason model
+model TeamSeason {
+  id        String   @id @default(cuid())
+  teamId    String
+  name      String
+  startDate DateTime
+  endDate   DateTime?
+  isActive  Boolean  @default(true)
+
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@index([teamId])
+}
+
+// Player model (Roster)
+model Player {
+  id                 Int      @id @default(autoincrement())
+  teamId             String
+  play               Boolean  @default(false)
+  fourthQuarterLock  Boolean  @default(false)
+  jerseyNumber       String
+  firstName          String
+  lastName           String
+  nickname           String?
+  position1          String
+  position2          String?
+  secondaryPosition  String?
+  defensivePosition  String?
+  createdAt          DateTime @default(now())
+
+  // Relations
+  team               Team             @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  parents            Parent[]         @relation("PlayerParents")
+  awards             Award[]
+  gameLineups        GameLineup[]
+  quartersPlayed     QuartersPlayed[]
+
+  @@index([teamId])
+}
+
+// Parent model
+model Parent {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String
+  userId    String?  @unique
+  createdAt DateTime @default(now())
+
+  // Relations
+  user           User?          @relation(fields: [userId], references: [id])
+  players        Player[]       @relation("PlayerParents")
+  venmoRequests  VenmoRequest[]
+
+  @@index([email])
+}
+
+// VenmoRequest model
+model VenmoRequest {
+  id          String            @id @default(cuid())
+  parentId    String
+  amount      Float
+  description String
+  status      VenmoStatus       @default(pending)
+  sentAt      DateTime          @default(now())
+  paidAt      DateTime?
+
+  parent      Parent            @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@index([parentId])
+}
+
+enum VenmoStatus {
+  pending
+  paid
+  cancelled
+}
+
+// Game model (Schedule)
+model Game {
+  id           Int      @id @default(autoincrement())
+  teamId       String
+  date         String
+  time         String?
+  opponent     String
+  location     String
+  field        String?
+  status       GameStatus @default(scheduled)
+  result       String?
+  notes        String?
+  finalizedAt  DateTime?
+  createdAt    DateTime @default(now())
+
+  // Finalization fields for Archive system
+  isFinalized  Boolean  @default(false)
+  finalScore   String?  // e.g., "14-7" or "W 14-7"
+  cardData     Json?    // Snapshot of the game card data at finalization
+
+  // Relations
+  team            Team             @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  awards          Award[]
+  lineup          GameLineup?
+  quartersPlayed  QuartersPlayed[]
+
+  @@index([teamId])
+  @@index([date])
+  @@index([isFinalized])
+}
+
+enum GameStatus {
+  scheduled
+  completed
+  finalized
+}
+
+// GameLineup model - Unique lineup instance per game
+model GameLineup {
+  id        String   @id @default(cuid())
+  gameId    Int      @unique
+  teamId    String
+  lineup    Json     // Stores the lineup configuration
+  roster    Json     // Stores the game-specific roster snapshot
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  players   Player[]
+
+  @@index([gameId])
+  @@index([teamId])
+}
+
+// Award model
+model Award {
+  id        String   @id @default(cuid())
+  gameId    Int
+  playerId  Int
+  teamId    String
+  awardName String   // Name of the award (e.g., "MVP", "Hustle Award")
+  notes     String   @default("")
+  awardedBy String
+  createdAt DateTime @default(now())
+  awardedAt DateTime @default(now())
+
+  // Relations
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  awardedByUser User  @relation("AwardsGiven", fields: [awardedBy], references: [id])
+
+  @@index([gameId])
+  @@index([playerId])
+  @@index([teamId])
+}
+
+// AwardType model - Custom award types per team
+model AwardType {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  teamId      String
+  createdAt   DateTime @default(now())
+
+  // Relations
+  team        Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([name, teamId])
+  @@index([teamId])
+}
+
+// Invite model - Team-specific invitations for parents/viewers
+model Invite {
+  id       String       @id @default(cuid())
+  email    String
+  teamId   String
+  token    String       @unique @default(cuid())
+  role     UserRole
+  isAdmin  Boolean      @default(false)
+  sentBy   String
+  sentAt   DateTime     @default(now())
+  status   InviteStatus @default(pending)
+
+  // Relations
+  sentByUser User      @relation("InvitesSent", fields: [sentBy], references: [id])
+  team       Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([token])
+  @@index([teamId])
+}
+
+enum InviteStatus {
+  pending
+  accepted
+  expired
+}
+
+enum TeamInviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
+// TeamInvite model - For coach/admin invitations
+model TeamInvite {
+  id               String           @id @default(cuid())
+  teamId           String
+  invitedByUserId  String
+  email            String
+  token            String           @unique @default(cuid())
+  role             TeamRole
+  status           TeamInviteStatus @default(PENDING)
+  createdAt        DateTime         @default(now())
+  expiresAt        DateTime
+
+  // Relations
+  team             Team             @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  invitedBy        User             @relation("TeamInvitesSent", fields: [invitedByUserId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([token])
+  @@index([teamId])
+  @@index([invitedByUserId])
+  @@index([status])
+}
+
+// PasswordResetToken model
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  userId    String   @unique
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([email])
+}
+
+// Position model
+model Position {
+  id           Int     @id @default(autoincrement())
+  name         String
+  abbreviation String  @unique
+  rank         Int     @default(1)
+  sport        Sport   @default(flag_football)
+
+  @@index([sport])
+}
+
+// QuartersPlayed model - Tracks quarters played per player per game
+model QuartersPlayed {
+  id              String   @id @default(cuid())
+  playerId        Int
+  teamId          String
+  gameId          Int
+  quartersPlayed  Int
+  createdAt       DateTime @default(now())
+
+  // Relations
+  player          Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  team            Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  game            Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, gameId])
+  @@index([playerId])
+  @@index([teamId])
+  @@index([gameId])
+}
+
+// Notification model - In-app notifications for coaches
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  teamId    String?
+  type      NotificationType
+  message   String
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  // Relations
+  user      User             @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([teamId])
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  CARD_FINALIZED
+  INVITE_ACCEPTED
+  INVITE_PENDING
+  INVITE_DECLINED
+}
