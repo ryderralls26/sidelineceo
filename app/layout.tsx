@@ -1,1 +1,39 @@
-aW1wb3J0IHR5cGUgeyBNZXRhZGF0YSB9IGZyb20gIm5leHQiOwppbXBvcnQgeyBQbGF5ZmFpcl9EaXNwbGF5LCBJbnRlciB9IGZyb20gIm5leHQvZm9udC9nb29nbGUiOwppbXBvcnQgIi4vZ2xvYmFscy5jc3MiOwppbXBvcnQgeyBBdXRoUHJvdmlkZXIgfSBmcm9tICJAL2xpYi9BdXRoQ29udGV4dCI7CmltcG9ydCB7IFRlYW1Qcm92aWRlciB9IGZyb20gIkAvbGliL1RlYW1Db250ZXh0IjsKaW1wb3J0IHsgRm9vdGVyIH0gZnJvbSAiQC9jb21wb25lbnRzL0Zvb3RlciI7CmltcG9ydCB7IFRvYXN0ZXIgfSBmcm9tICJyZWFjdC1ob3QtdG9hc3QiOwoKY29uc3QgcGxheWZhaXIgPSBQbGF5ZmFpcl9EaXNwbGF5KHsKICB2YXJpYWJsZTogIi0tZm9udC1wbGF5ZmFpciIsCiAgc3Vic2V0czogWyJsYXRpbiJdLAogIHdlaWdodDogWyI0MDAiLCAiNzAwIiwgIjkwMCJdLAp9KTsKIApjb25zdCBpbnRlciA9IEludGVyKHsKICB2YXJpYWJsZTogIi0tZm9udC1pbnRlciIsCiAgc3Vic2V0czogWyJsYXRpbiJdLAp9KTsKIApleHBvcnQgY29uc3QgbWV0YWRhdGE6IE1ldGFkYXRhID0gewogIHRpdGxlOiB7CiAgICB0ZW1wbGF0ZTogIiVzIOKAlCBGbGFnRm9vdHkiLAogICAgZGVmYXVsdDogIkZsYWdGb290eSDigJQgVGhlIENvYWNoJ3MgUGxheWJvb2sgZm9yIFRlYW0gU3VjY2VzcyIsCiAgfSwKICBkZXNjcmlwdGlvbjogIkZsYWdGb290eSBoZWxwcyBmbGFnIGZvb3RiYWxsIGNvYWNoZXMgbWFuYWdlIHJvc3RlcnMsIGJ1aWxkIGZhaXItcGxheSBsaW5ldXBzLCB0cmFjayBwbGF5ZXIgYXdhcmRzLCBhbmQgcHJpbnQgcHJvZmVzc2lvbmFsIGdhbWUgY2FyZHMg4oCUIGFsbCBpbiBvbmUgZnJlZSBwbGF0Zm9ybS4iLAogIGljb25zOiB7CiAgICBpY29uOiAnL2Zhdmljb24uaWNvJywKICAgIGFwcGxlOiAnL2FwcGxlLXRvdWNoLWljb24ucG5nJywKICB9LAogIG9wZW5HcmFwaDogewogIHRpdGxlOiAiRmxhZ0Zvb3R5IOKAlCBUaGUgQ29hY2gncyBQbGF5Ym9vayBmb3IgVGVhbSBTdWNjZXNzIiwKICBkZXNjcmlwdGlvbjogIkZsYWdGb290eSBoZWxwcyBmbGFnIGZvb3RiYWxsIGNvYWNoZXMgbWFuYWdlIHJvc3RlcnMsIGJ1aWxkIGZhaXItcGxheSBsaW5ldXBzLCB0cmFjayBwbGF5ZXIgYXdhcmRzLCBhbmQgcHJpbnQgcHJvZmVzc2lvbmFsIGdhbWUgY2FyZHMg4oCUIGFsbCBpbiBvbmUgZnJlZSBwbGF0Zm9ybS4iLAogICAgdXJsOiAnaHR0cHM6Ly93d3cuc2lkZWxpbmVtZ210LnNwYWNlJywKICAgIHR5cGU6ICd3ZWJzaXRlJywKICB9LAogIHR3aXR0ZXI6IHsKICAgIGNhcmQ6ICdzdW1tYXJ5JywKICB9LAp9OwogCmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIFJvb3RMYXlvdXQoewogIGNoaWxkcmVuLAp9OiBSZWFkb25seTx7CiAgY2hpbGRyZW46IFJlYWN0LlJlYWN0Tm9kZTsKfT4pIHsKICByZXR1cm4gKAogICAgPGh0bWwgbGFuZz0iZW4iPgogICAgICA8Ym9keQogICAgICAgIGNsYXNzTmFtZT17JHtwbGF5ZmFpci52YXJpYWJsZX0gJHtpbnRlci52YXJpYWJsZX0gYW50aWFsaWFzZWQgZmxleCBmbGV4LWNvbCBtaW4taC1zY3JlZW59CiAgICAgID4KICAgICAgICA8QXV0aFByb3ZpZGVyPgogICAgICAgICAgPFRlYW1Qcm92aWRlcj4KICAgICAgICAgICAgPFRvYXN0ZXIgcG9zaXRpb249InRvcC1jZW50ZXIiIC8+CiAgICAgICAgICAgIHtjaGlsZHJlbn0KICAgICAgICAgICAgPEZvb3RlciAvPgogICAgICAgICAgPC9UZWFtUHJvdmlkZXI+CiAgICAgICAgPC9BdXRoUHJvdmlkZXI+CiAgICAgIDwvYm9keT4KICAgIDwvaHRtbD4KICApOwp9Cg==
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { AuthProvider } from "@/lib/AuthContext";
+import { Toaster } from 'react-hot-toast';
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "FlagFooty – The Professional Playbook for Team Success",
+  description: "Effortless rosters, fair-play lineups, and pro game cards for your flag football team.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <AuthProvider>
+          <Toaster position="top-center" />
+          {children}
+        </AuthProvider>
+      </body>
+    </html>
+  );
+}
