@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/lib/AuthContext";
-import { TeamProvider } from "@/lib/TeamContext";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-playfair",
 });
 
 export const metadata: Metadata = {
-  title: "FlagFooty – The Professional Playbook for Team Success",
-  description: "Effortless rosters, fair-play lineups, and pro game cards for your flag football team.",
+  title: "FlagFooty - Pro Flag Football Management",
+  description: "Professional roster management, fair-play lineups, and game cards for flag football coaches.",
 };
 
 export default function RootLayout({
@@ -27,15 +27,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <AuthProvider>
-          <TeamProvider>
-            <Toaster position="top-center" />
+      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-[#0f172a] text-slate-100`}>
+        <div className="flex flex-col min-h-screen">
+          <Navigation />
+          <main className="flex-grow">
             {children}
-          </TeamProvider>
-        </AuthProvider>
+          </main>
+          <Footer />
+        </div>
+        <Toaster position="top-center" />
       </body>
     </html>
   );
