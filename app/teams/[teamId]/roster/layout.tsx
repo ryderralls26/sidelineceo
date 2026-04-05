@@ -1,15 +1,13 @@
 import type { Metadata } from 'next';
 import { getTeam } from '@/lib/actions/teams';
 
-type Props = {
-  params: Promise<{ teamId: string }>
-}
-
 export async function generateMetadata({
   params,
-}: Props): Promise<Metadata> {
-  const { teamId } = await params;
+}: {
+  params: Promise<{ teamId: string }>;
+}): Promise<Metadata> {
   try {
+    const { teamId } = await params;
     const result = await getTeam(teamId);
     const teamName = result.success && result.team ? result.team.name : 'Team';
 
