@@ -12,7 +12,7 @@ const isPostgres = databaseUrl.startsWith('postgres:') || databaseUrl.startsWith
 let adapter: any;
 if (isPostgres) {
   const pool = new Pool({ connectionString: databaseUrl });
-  adapter = new PrismaNeon(pool);
+  adapter = new PrismaNeon(pool as any);
 } else {
   const libsql = createClient({ url: databaseUrl });
   adapter = new PrismaLibSql(libsql as any);
