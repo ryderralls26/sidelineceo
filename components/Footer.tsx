@@ -1,96 +1,29 @@
-'use client';
-
 import Link from 'next/link';
-import { handleShare as executeShare } from '@/lib/share';
 
-export function Footer() {
-  const handleShareClick = () => {
-    executeShare({ type: 'referral' });
-  };
-
+export const Footer = () => {
   return (
-    <footer className="border-t border-slate-700 bg-[#1e293b] mt-auto print:hidden">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          {/* Column 1: Brand */}
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-2xl font-bold text-white font-display">FlagFooty</h3>
-              <p className="text-slate-300 mt-2">
-                The Coach&apos;s Playbook for Team Success
-              </p>
-            </div>
-            <p className="text-sm text-slate-400">
-              &copy; 2026 FlagFooty. All rights reserved.
-            </p>
+    <footer className="bg-slate-900 border-t border-slate-800 py-12 px-4">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="flex flex-col items-center md:items-start gap-2">
+          <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent font-display">
+            FlagFooty
           </div>
-
-          {/* Column 2: Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
-            <nav className="space-y-2">
-              <Link
-                href="/"
-                className="block text-slate-300 hover:text-[#16a34a] transition-colors duration-200"
-              >
-                Home
-              </Link>
-              <Link
-                href="/signup"
-                className="block text-slate-300 hover:text-[#16a34a] transition-colors duration-200"
-              >
-                Sign Up
-              </Link>
-              <Link
-                href="/login"
-                className="block text-slate-300 hover:text-[#16a34a] transition-colors duration-200"
-              >
-                Login
-              </Link>
-              <Link
-                href="/awards"
-                className="block text-slate-300 hover:text-[#16a34a] transition-colors duration-200"
-              >
-                Awards
-              </Link>
-              <Link
-                href="/archive"
-                className="block text-slate-300 hover:text-[#16a34a] transition-colors duration-200"
-              >
-                Archive
-              </Link>
-            </nav>
+          <p className="text-slate-500 text-sm max-w-xs text-center md:text-left">
+            Professional management tools for recreational flag football coaches and teams.
+          </p>
+        </div>
+        
+        <div className="flex flex-col items-center md:items-end gap-4">
+          <div className="flex gap-8 text-sm font-semibold text-slate-400">
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+            <a href="mailto:hello@flagfooty.app" className="hover:text-white transition-colors">Support</a>
           </div>
-
-          {/* Column 3: Share & Support */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Share &amp; Support</h4>
-            <div className="space-y-4">
-              <button
-                onClick={handleShareClick}
-                className="px-6 py-3 bg-gray-200 text-[#16a34a] rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 w-full md:w-auto"
-              >
-                Share
-              </button>
-
-              <div className="space-y-2">
-                <a
-                  href="mailto:support@flagfooty.com"
-                  className="block text-slate-300 hover:text-[#16a34a] transition-colors duration-200"
-                >
-                  Contact Support
-                </a>
-                <Link
-                  href="/privacy"
-                  className="block text-slate-300 hover:text-[#16a34a] transition-colors duration-200"
-                >
-                  Privacy Policy
-                </Link>
-              </div>
-            </div>
-          </div>
+          <p className="text-slate-600 text-xs italic">
+            &copy; {new Date().getFullYear()} FlagFooty. Built for the love of the game.
+          </p>
         </div>
       </div>
     </footer>
   );
-}
+};
