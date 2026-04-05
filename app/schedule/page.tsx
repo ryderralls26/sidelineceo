@@ -509,7 +509,7 @@ export default function SchedulePage() {
               <ErrorState message={error} onRetry={() => window.location.reload()} />
             ) : games.length === 0 ? (
               <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-12 text-center">
-                <div className="text-7xl mb-6">📅</div>
+                <div className="text-7xl mb-6">ðŸ“…</div>
                 <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold mb-3 text-white">
                   No games on the board yet!
                 </h3>
@@ -580,4 +580,687 @@ export default function SchedulePage() {
                               <span>{game.location}</span>
                             </div>
                           )}
-                          <div className=\"flex items-center gap-2 min-h-[32px]\">\n                            <span className=\"hidden sm:inline text-slate-500\">•</span>\n                            <span>{game.time || '5:00 PM'}</span>\n                          </div>\n                          <div className=\"flex items-center gap-2 min-h-[32px]\">\n                            <span className=\"hidden sm:inline text-slate-500\">•</span>\n                            <span>Field: {game.field || 'TBD'}</span>\n                          </div>\n                        </div>\n\n                        {/* Show award winners if game is finalized */}\n                        {isFinalized(game.id) && (() => {\n                          const awards = getGameAwards(game.id);\n                          if (awards.length > 0) {\n                            const roster = getRosterFromStorage();\n                            return (\n                              <div className=\"mt-3 flex flex-wrap gap-2\">\n                                {awards.map(award => {\n                                  const player = roster.find(p => p.id === award.playerId);\n                                  return (\n                                    <div key={award.id} className=\"flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-3 py-1.5\">\n                                      <Star className=\"w-4 h-4 text-yellow-400 fill-yellow-400\" />\n                                      <span className=\"text-sm text-yellow-200\">\n                                        {award.awardType}: {player ? `${player.firstName} ${player.lastName}` : 'Unknown'}\n                                      </span>\n                                    </div>\n                                  );\n                                })}\n                              </div>\n                            );\n                          }\n                          return null;\n                        })()}\n                      </div>\n\n                      <div className=\"flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3\">\n                        {isFinalized(game.id) ? (\n                          <>\n                            {/* Show \"Final Roster\" for coaches/admins, \"View in Archive\" for parents/players */}\n                            {(isCoach || canEdit) ? (\n                              <>\n                                <Link\n                                  href={`/archive?gameId=${game.id}`}\n                                  className=\"flex items-center justify-center gap-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white px-4 py-2 rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300 min-h-[44px] w-full sm:w-auto\"\n                                >\n                                  <Archive className=\"w-4 h-4\" />\n                                  Final Roster\n                                </Link>\n                                {game.status === 'completed' && (\n                                  <Link\n                                    href={`/schedule/${game.id}/summary`}\n                                    className=\"flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-500 transition-all duration-300 min-h-[44px] w-full sm:w-auto\"\n                                  >\n                                    <FileText className=\"w-4 h-4\" />\n                                    View Summary\n                                  </Link>\n                                )}\n                              </>\n                            ) : (\n                              <>\n                                <Link\n                                  href={`/archive?gameId=${game.id}`}\n                                  className=\"flex items-center justify-center gap-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white px-4 py-2 rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300 min-h-[44px] w-full sm:w-auto\"\n                                >\n                                  <Archive className=\"w-4 h-4\" />\n                                  View in Archive\n                                </Link>\n                                {game.status === 'completed' && (\n                                  <Link\n                                    href={`/schedule/${game.id}/summary`}\n                                    className=\"flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-500 transition-all duration-300 min-h-[44px] w-full sm:w-auto\"\n                                  >\n                                    <FileText className=\"w-4 h-4\" />\n                                    View Summary\n                                  </Link>\n                                )}\n                              </>\n                            )}\n                          </>\n                        ) : (\n                          <>\n                            {/* Generate Lineup - Coach Only (hidden from parents and players) */}\n                            {isCoach && (\n                              <Link\n                                href={`/roster?gameId=${game.id}&mode=lineup`}\n                                className=\"flex items-center justify-center gap-2 bg-[#16a34a] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#22c55e] transition-all duration-300 min-h-[44px] w-full sm:w-auto\"\n                              >\n                                <Trophy className=\"w-4 h-4\" />\n                                Generate Lineup\n                              </Link>\n                            )}\n                            {/* Additional buttons in a row on mobile */}\n                            <div className=\"flex gap-2\">\n                              {/* MVP - Coach Only (hidden from parents and players) */}\n                              {isCoach && (\n                                <button\n                                  onClick={() => openMVPModal(game)}\n                                  className=\"flex-1 sm:flex-none flex items-center justify-center gap-2 bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition-all duration-300 min-h-[44px]\"\n                                  title=\"Award MVP or Player of the Game\"\n                                >\n                                  <Star className=\"w-4 h-4\" />\n                                  <span className=\"sm:inline\">MVP</span>\n                                </button>\n                              )}\n                              {/* Game Notes - Coach/Admin Only */}\n                              {(isCoach || canEdit) && (\n                                <button\n                                  onClick={() => openGameNotesModal(game.id)}\n                                  className=\"flex-1 sm:flex-none flex items-center justify-center gap-2 bg-slate-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-slate-500 transition-all duration-300 min-h-[44px]\"\n                                  title=\"Add or edit game notes\"\n                                >\n                                  <FileText className=\"w-4 h-4\" />\n                                  <span className=\"hidden sm:inline\">Notes</span>\n                                </button>\n                              )}\n                              {canEdit && (\n                                <>\n                                  <button\n                                    onClick={() => openEditModal(game)}\n                                    className=\"p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-400 hover:text-[#16a34a] hover:bg-slate-800/50 rounded-lg transition-all\"\n                                    title=\"Edit game details\"\n                                  >\n                                    <Edit className=\"w-5 h-5\" />\n                                  </button>\n                                  {!isFinalized(game.id) && (\n                                    <button\n                                      onClick={() => deleteGame(game.id)}\n                                      className=\"p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-slate-800/50 rounded-lg transition-all\"\n                                      title=\"Delete game\"\n                                    >\n                                      <Trash2 className=\"w-5 h-5\" />\n                                    </button>\n                                  )}\n                                </>\n                              )}\n                            </div>\n                          </>\n                        )}\n                      </div>\n                    </div>\n                  </div>\n                ))\n            )}\n          </div>\n        </div>\n      </div>\n\n      {/* Add/Edit Modal */}\n      {showModal && (\n        <div\n          className=\"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm\"\n          onClick={(e) => {\n            // Close modal when clicking backdrop\n            if (e.target === e.currentTarget) {\n              closeModal();\n            }\n          }}\n        >\n          <div\n            className=\"bg-slate-800 rounded-2xl border border-slate-700 max-w-md w-full p-8\"\n            onClick={(e) => e.stopPropagation()}\n          >\n            <h2 className=\"font-[family-name:var(--font-playfair)] text-2xl font-bold mb-6\">\n              {editingGame ? 'Edit Game' : 'Add New Game'}\n            </h2>\n\n            <form onSubmit={handleSubmit} className=\"space-y-4 max-h-[70vh] overflow-y-auto pr-2\">\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Date\n                </label>\n                <input\n                  type=\"date\"\n                  value={formData.date}\n                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}\n                  className=\"w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all\"\n                  required\n                />\n              </div>\n\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Opponent\n                </label>\n                <input\n                  type=\"text\"\n                  value={formData.opponent}\n                  onChange={(e) => setFormData({ ...formData, opponent: e.target.value })}\n                  className=\"w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all\"\n                  placeholder=\"Team name\"\n                  required\n                />\n              </div>\n\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Location\n                </label>\n                <input\n                  type=\"text\"\n                  value={formData.location}\n                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}\n                  className=\"w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all\"\n                  placeholder=\"e.g. Memorial Field, Home, Away\"\n                />\n              </div>\n\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Field\n                </label>\n                <input\n                  type=\"text\"\n                  value={formData.field || ''}\n                  onChange={(e) => setFormData({ ...formData, field: e.target.value })}\n                  className=\"w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all\"\n                  placeholder=\"e.g. Field 1, Field A\"\n                />\n              </div>\n\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Time\n                </label>\n                <input\n                  type=\"text\"\n                  value={formData.time}\n                  onChange={(e) => setFormData({ ...formData, time: e.target.value })}\n                  className=\"w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all\"\n                  placeholder=\"e.g. 3:00 PM, 15:00\"\n                />\n              </div>\n\n              {/* Game Status Toggle */}\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Game Status\n                </label>\n                <div className=\"flex gap-2\">\n                  <button\n                    type=\"button\"\n                    onClick={() => setFormData({ ...formData, status: 'scheduled' })}\n                    className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${\n                      formData.status === 'scheduled'\n                        ? 'bg-blue-500 text-white'\n                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'\n                    }`}\n                  >\n                    Scheduled\n                  </button>\n                  <button\n                    type=\"button\"\n                    onClick={() => setFormData({ ...formData, status: 'completed' })}\n                    className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${\n                      formData.status === 'completed'\n                        ? 'bg-[#16a34a] text-white'\n                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'\n                    }`}\n                  >\n                    Completed\n                  </button>\n                </div>\n              </div>\n\n              {/* Final Score - Only for Completed Games */}\n              {formData.status === 'completed' && (\n                <div>\n                  <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                    Final Score\n                  </label>\n                  <input\n                    type=\"text\"\n                    value={finalScore}\n                    onChange={(e) => setFinalScore(e.target.value)}\n                    className=\"w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all\"\n                    placeholder=\"e.g. W 28-21, 14-7\"\n                  />\n                </div>\n              )}\n\n              {/* Award Dropdowns - Only for Completed Games */}\n              {formData.status === 'completed' && (() => {\n                const players = getRosterFromStorage();\n                const awardTypes = StorageManager.getAwardTypes();\n\n                return awardTypes.length > 0 ? (\n                  <div className=\"space-y-3\">\n                    <label className=\"block text-sm font-semibold text-slate-300\">\n                      Award Winners\n                    </label>\n                    {awardTypes.map((awardType) => (\n                      <div key={awardType.id}>\n                        <label className=\"block text-xs text-slate-400 mb-1\">\n                          {awardType.name}\n                        </label>\n                        <select\n                          value={selectedAwards[awardType.name] || ''}\n                          onChange={(e) => setSelectedAwards({\n                            ...selectedAwards,\n                            [awardType.name]: parseInt(e.target.value) || 0\n                          })}\n                          className=\"w-full px-4 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all cursor-pointer\"\n                        >\n                          <option value=\"\">Select Player</option>\n                          {players.map((player) => (\n                            <option key={player.id} value={player.id}>\n                              #{player.jerseyNumber} {player.firstName} {player.lastName}\n                            </option>\n                          ))}\n                        </select>\n                      </div>\n                    ))}\n                  </div>\n                ) : null;\n              })()}\n\n              {/* Game Notes */}\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Game Notes\n                  <span className=\"ml-2 text-xs text-slate-500\">\n                    ({modalGameNotes.length}/{MAX_NOTES_LENGTH} characters)\n                  </span>\n                </label>\n                <textarea\n                  value={modalGameNotes}\n                  onChange={(e) => {\n                    if (e.target.value.length <= MAX_NOTES_LENGTH) {\n                      setModalGameNotes(e.target.value);\n                    }\n                  }}\n                  className=\"w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all resize-none\"\n                  placeholder=\"Add notes about the game...\"\n                  rows={4}\n                  maxLength={MAX_NOTES_LENGTH}\n                />\n              </div>\n\n              <div className=\"flex gap-3 pt-4\">\n                <button\n                  type=\"button\"\n                  onClick={closeModal}\n                  className=\"flex-1 px-6 py-3 min-h-[44px] bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all duration-300\"\n                >\n                  Cancel\n                </button>\n                <button\n                  type=\"submit\"\n                  className=\"flex-1 px-6 py-3 min-h-[44px] bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300\"\n                >\n                  {editingGame ? 'Update' : 'Add'} Game\n                </button>\n              </div>\n            </form>\n          </div>\n        </div>\n      )}\n\n      {/* MVP Modal */}\n      {showMVPModal && mvpGame && (\n        <MVPModal\n          gameId={mvpGame.id}\n          gameName={`vs ${mvpGame.opponent}`}\n          onClose={closeMVPModal}\n          onSuccess={() => {\n            closeMVPModal();\n            // Reload games to show updated awards\n            const savedGames = StorageManager.getAllGames();\n            setGames(savedGames);\n            alert('Award successfully given!');\n          }}\n        />\n      )}\n\n      {/* Game Notes Modal */}\n      {showGameNotesModal && gameNotesGameId !== null && (\n        <div\n          className=\"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm\"\n          onClick={(e) => {\n            if (e.target === e.currentTarget) {\n              closeGameNotesModal();\n            }\n          }}\n        >\n          <div\n            className=\"bg-slate-800 rounded-2xl border border-slate-700 max-w-2xl w-full p-8\"\n            onClick={(e) => e.stopPropagation()}\n          >\n            <h2 className=\"font-[family-name:var(--font-playfair)] text-2xl font-bold mb-6 flex items-center gap-2\">\n              <FileText className=\"w-6 h-6 text-[#16a34a]\" />\n              Game Notes\n            </h2>\n\n            <div className=\"space-y-4\">\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Coach Notes (Visible to coaches only)\n                </label>\n                <textarea\n                  value={gameNotes}\n                  onChange={(e) => setGameNotes(e.target.value)}\n                  className=\"w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all resize-none\"\n                  placeholder=\"Enter notes about game strategy, player performance, observations...\"\n                  rows={8}\n                />\n              </div>\n\n              <div className=\"flex gap-3 pt-4\">\n                <button\n                  type=\"button\"\n                  onClick={closeGameNotesModal}\n                  className=\"flex-1 px-6 py-3 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all duration-300\"\n                >\n                  Cancel\n                </button>\n                <button\n                  type=\"button\"\n                  onClick={handleSaveGameNotes}\n                  className=\"flex-1 px-6 py-3 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300\"\n                >\n                  Save Notes\n                </button>\n              </div>\n            </div>\n          </div>\n        </div>\n      )}\n\n      {/* Login Prompt Modal */}\n      <LoginPromptModal\n        isOpen={showLoginPrompt}\n        onClose={() => setShowLoginPrompt(false)}\n      />\n\n      {/* Invite Team Section - Coach Only */}\n      {canEdit && (\n        <div className=\"px-4 pb-12\">\n          <div className=\"max-w-7xl mx-auto\">\n            <div className=\"mb-6\">\n              <h2 className=\"font-[family-name:var(--font-playfair)] text-3xl md:text-4xl font-bold mb-4 flex items-center gap-3\">\n                <UserPlus className=\"w-8 h-8 text-[#16a34a]\" />\n                Invite <span className=\"text-[#16a34a]\">Team Members</span>\n              </h2>\n              <p className=\"text-slate-400 text-lg\">\n                Send invitations to parents and players to join your team.\n              </p>\n            </div>\n\n            <div className=\"mb-6\">\n              <button\n                onClick={openInviteModal}\n                className=\"flex items-center gap-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300\"\n              >\n                <Mail className=\"w-5 h-5\" />\n                Send Invite\n              </button>\n            </div>\n\n            <div className=\"space-y-4\">\n              {invites.map((invite) => (\n                <div\n                  key={invite.id}\n                  className=\"bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 hover:border-[#16a34a]/50 transition-all duration-300\"\n                >\n                  <div className=\"flex items-center justify-between\">\n                    <div className=\"flex-1\">\n                      <div className=\"flex items-center gap-3 mb-2\">\n                        <Mail className=\"w-5 h-5 text-[#16a34a]\" />\n                        <h3 className=\"text-lg font-bold text-white\">{invite.email}</h3>\n                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${\n                          invite.status === 'pending'\n                            ? 'bg-yellow-500/20 text-yellow-400'\n                            : invite.status === 'accepted'\n                            ? 'bg-green-500/20 text-green-400'\n                            : 'bg-gray-500/20 text-gray-400'\n                        }`}>\n                          {invite.status}\n                        </span>\n                      </div>\n                      <div className=\"flex items-center gap-4 text-slate-400 text-sm\">\n                        <span>Role: <strong className=\"text-slate-300\">{invite.role}</strong></span>\n                        {invite.isAdmin && (\n                          <span className=\"text-[#16a34a]\">• Admin Access</span>\n                        )}\n                        <span>• Sent {new Date(invite.sentAt).toLocaleDateString()}</span>\n                      </div>\n                    </div>\n                    <div className=\"flex items-center gap-2\">\n                      <button\n                        onClick={() => handleDeleteInvite(invite.id)}\n                        className=\"p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800/50 rounded-lg transition-all\"\n                        title=\"Delete invite\"\n                      >\n                        <Trash2 className=\"w-5 h-5\" />\n                      </button>\n                    </div>\n                  </div>\n                </div>\n              ))}\n\n              {invites.length === 0 && (\n                <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-12 text-center\">\n                  <Mail className=\"w-16 h-16 text-slate-600 mx-auto mb-4\" />\n                  <h3 className=\"text-xl font-semibold text-slate-400 mb-2\">\n                    No Invites Sent Yet\n                  </h3>\n                  <p className=\"text-slate-500\">\n                    Send your first invite to get team members onboard.\n                  </p>\n                </div>\n              )}\n            </div>\n          </div>\n        </div>\n      )}\n\n      {/* Invite Modal */}\n      {showInviteModal && (\n        <div\n          className=\"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm\"\n          onClick={(e) => {\n            if (e.target === e.currentTarget) {\n              closeInviteModal();\n            }\n          }}\n        >\n          <div\n            className=\"bg-slate-800 rounded-2xl border border-slate-700 max-w-md w-full p-8\"\n            onClick={(e) => e.stopPropagation()}\n          >\n            <h2 className=\"font-[family-name:var(--font-playfair)] text-2xl font-bold mb-6 flex items-center gap-2\">\n              <Mail className=\"w-6 h-6 text-[#16a34a]\" />\n              Send Team Invite\n            </h2>\n\n            <form onSubmit={handleSendInvite} className=\"space-y-4\">\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Email Address\n                </label>\n                <input\n                  type=\"email\"\n                  value={inviteEmail}\n                  onChange={(e) => setInviteEmail(e.target.value)}\n                  className=\"w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all\"\n                  placeholder=\"teammate@example.com\"\n                  required\n                />\n              </div>\n\n              <div>\n                <label className=\"block text-sm font-semibold text-slate-300 mb-2\">\n                  Role\n                </label>\n                <select\n                  value={inviteRole}\n                  onChange={(e) => setInviteRole(e.target.value as UserRole)}\n                  className=\"w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all cursor-pointer\"\n                  required\n                >\n                  <option value=\"parent\">Parent</option>\n                  <option value=\"player\">Player</option>\n                </select>\n                <p className=\"mt-2 text-xs text-slate-500\">\n                  {inviteRole === 'parent' && 'Parents can view team data and optionally have admin access.'}\n                  {inviteRole === 'player' && 'Players have view-only access to their stats and team info.'}\n                </p>\n              </div>\n\n              {inviteRole === 'parent' && (\n                <div className=\"flex items-start gap-3 p-4 bg-slate-900/30 rounded-lg border border-slate-700/50\">\n                  <input\n                    type=\"checkbox\"\n                    id=\"inviteIsAdmin\"\n                    checked={inviteIsAdmin}\n                    onChange={(e) => setInviteIsAdmin(e.target.checked)}\n                    className=\"mt-1 w-5 h-5 rounded border-slate-600 bg-slate-800 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer\"\n                  />\n                  <div>\n                    <label htmlFor=\"inviteIsAdmin\" className=\"text-sm font-semibold text-slate-300 cursor-pointer\">\n                      Grant Admin Access\n                    </label>\n                    <p className=\"text-xs text-slate-500 mt-1\">\n                      Allow editing and managing team data\n                    </p>\n                  </div>\n                </div>\n              )}\n\n              <div className=\"flex gap-3 pt-4\">\n                <button\n                  type=\"button\"\n                  onClick={closeInviteModal}\n                  className=\"flex-1 px-6 py-3 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all duration-300\"\n                >\n                  Cancel\n                </button>\n                <button\n                  type=\"submit\"\n                  className=\"flex-1 px-6 py-3 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300\"\n                >\n                  Send Invite\n                </button>\n              </div>\n            </form>\n          </div>\n        </div>\n      )}\n\n      {/* Tips Section */}\n      <div className=\"px-4 pb-12\">\n        <div className=\"max-w-7xl mx-auto\">\n          <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8\">\n            <h2 className=\"font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-6 text-center\">\n              <span className=\"text-[#16a34a]\">Quick Tips</span> for Managing Your Schedule\n            </h2>\n            <div className=\"grid md:grid-cols-3 gap-6\">\n              {/* Tip 1 */}\n              <div className=\"bg-slate-900/30 rounded-xl p-6 border border-slate-700/30\">\n                <div className=\"flex items-center justify-center w-12 h-12 bg-[#16a34a]/20 rounded-full mb-4\">\n                  <span className=\"text-[#16a34a] text-2xl font-bold\">1</span>\n                </div>\n                <h3 className=\"text-lg font-semibold text-white mb-2\">\n                  Add Your Games\n                </h3>\n                <p className=\"text-slate-400 text-sm\">\n                  Click \"Add Game\" to create a new game entry. Fill in the opponent, date, time, and location details.\n                </p>\n              </div>\n\n              {/* Tip 2 */}\n              <div className=\"bg-slate-900/30 rounded-xl p-6 border border-slate-700/30\">\n                <div className=\"flex items-center justify-center w-12 h-12 bg-[#16a34a]/20 rounded-full mb-4\">\n                  <span className=\"text-[#16a34a] text-2xl font-bold\">2</span>\n                </div>\n                <h3 className=\"text-lg font-semibold text-white mb-2\">\n                  Generate Lineups\n                </h3>\n                <p className=\"text-slate-400 text-sm\">\n                  Click \"Generate Lineup\" on any scheduled game to create a balanced player rotation for that matchup.\n                </p>\n              </div>\n\n              {/* Tip 3 */}\n              <div className=\"bg-slate-900/30 rounded-xl p-6 border border-slate-700/30\">\n                <div className=\"flex items-center justify-center w-12 h-12 bg-[#16a34a]/20 rounded-full mb-4\">\n                  <span className=\"text-[#16a34a] text-2xl font-bold\">3</span>\n                </div>\n                <h3 className=\"text-lg font-semibold text-white mb-2\">\n                  Track Results & Awards\n                </h3>\n                <p className=\"text-slate-400 text-sm\">\n                  After the game, edit the game details to mark it as \"Completed\", add the final score, select MVP/award winners, and save game notes.\n                </p>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      {/* Footer */}\n      <footer className=\"py-12 px-4 border-t border-slate-800/50\">\n        <div className=\"max-w-7xl mx-auto text-center\">\n          <h3 className=\"font-[family-name:var(--font-playfair)] text-2xl font-bold mb-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] bg-clip-text text-transparent\">\n            FlagFooty\n          </h3>\n          <p className=\"text-slate-500 text-sm\">\n            &copy; {new Date().getFullYear()} FlagFooty. All rights reserved.\n          </p>\n        </div>\n      </footer>\n\n      {/* Scout Mode Popup */}\n      <ScoutModePopup\n        isOpen={showScoutPopup}\n        onDismiss={dismissScoutPopup}\n        onScoutMode={enterScoutMode}\n      />\n\n      {/* Scout Mode Banner */}\n      <ScoutModeBanner isVisible={showScoutBanner} />\n    </div>\n  );\n}\n
+                          <div className="flex items-center gap-2 min-h-[32px]">
+                            <span className="hidden sm:inline text-slate-500">â€¢</span>
+                            <span>{game.time || '5:00 PM'}</span>
+                          </div>
+                          <div className="flex items-center gap-2 min-h-[32px]">
+                            <span className="hidden sm:inline text-slate-500">â€¢</span>
+                            <span>Field: {game.field || 'TBD'}</span>
+                          </div>
+                        </div>
+
+                        {/* Show award winners if game is finalized */}
+                        {isFinalized(game.id) && (() => {
+                          const awards = getGameAwards(game.id);
+                          if (awards.length > 0) {
+                            const roster = getRosterFromStorage();
+                            return (
+                              <div className="mt-3 flex flex-wrap gap-2">
+                                {awards.map(award => {
+                                  const player = roster.find(p => p.id === award.playerId);
+                                  return (
+                                    <div key={award.id} className="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-3 py-1.5">
+                                      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                      <span className="text-sm text-yellow-200">
+                                        {award.awardType}: {player ? `${player.firstName} ${player.lastName}` : 'Unknown'}
+                                      </span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()}
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                        {isFinalized(game.id) ? (
+                          <>
+                            {/* Show "Final Roster" for coaches/admins, "View in Archive" for parents/players */}
+                            {(isCoach || canEdit) ? (
+                              <>
+                                <Link
+                                  href={`/archive?gameId=${game.id}`}
+                                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white px-4 py-2 rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300 min-h-[44px] w-full sm:w-auto"
+                                >
+                                  <Archive className="w-4 h-4" />
+                                  Final Roster
+                                </Link>
+                                {game.status === 'completed' && (
+                                  <Link
+                                    href={`/schedule/${game.id}/summary`}
+                                    className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-500 transition-all duration-300 min-h-[44px] w-full sm:w-auto"
+                                  >
+                                    <FileText className="w-4 h-4" />
+                                    View Summary
+                                  </Link>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                <Link
+                                  href={`/archive?gameId=${game.id}`}
+                                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white px-4 py-2 rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300 min-h-[44px] w-full sm:w-auto"
+                                >
+                                  <Archive className="w-4 h-4" />
+                                  View in Archive
+                                </Link>
+                                {game.status === 'completed' && (
+                                  <Link
+                                    href={`/schedule/${game.id}/summary`}
+                                    className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-500 transition-all duration-300 min-h-[44px] w-full sm:w-auto"
+                                  >
+                                    <FileText className="w-4 h-4" />
+                                    View Summary
+                                  </Link>
+                                )}
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {/* Generate Lineup - Coach Only (hidden from parents and players) */}
+                            {isCoach && (
+                              <Link
+                                href={`/roster?gameId=${game.id}&mode=lineup`}
+                                className="flex items-center justify-center gap-2 bg-[#16a34a] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#22c55e] transition-all duration-300 min-h-[44px] w-full sm:w-auto"
+                              >
+                                <Trophy className="w-4 h-4" />
+                                Generate Lineup
+                              </Link>
+                            )}
+                            {/* Additional buttons in a row on mobile */}
+                            <div className="flex gap-2">
+                              {/* MVP - Coach Only (hidden from parents and players) */}
+                              {isCoach && (
+                                <button
+                                  onClick={() => openMVPModal(game)}
+                                  className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition-all duration-300 min-h-[44px]"
+                                  title="Award MVP or Player of the Game"
+                                >
+                                  <Star className="w-4 h-4" />
+                                  <span className="sm:inline">MVP</span>
+                                </button>
+                              )}
+                              {/* Game Notes - Coach/Admin Only */}
+                              {(isCoach || canEdit) && (
+                                <button
+                                  onClick={() => openGameNotesModal(game.id)}
+                                  className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-slate-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-slate-500 transition-all duration-300 min-h-[44px]"
+                                  title="Add or edit game notes"
+                                >
+                                  <FileText className="w-4 h-4" />
+                                  <span className="hidden sm:inline">Notes</span>
+                                </button>
+                              )}
+                              {canEdit && (
+                                <>
+                                  <button
+                                    onClick={() => openEditModal(game)}
+                                    className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-400 hover:text-[#16a34a] hover:bg-slate-800/50 rounded-lg transition-all"
+                                    title="Edit game details"
+                                  >
+                                    <Edit className="w-5 h-5" />
+                                  </button>
+                                  {!isFinalized(game.id) && (
+                                    <button
+                                      onClick={() => deleteGame(game.id)}
+                                      className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-slate-800/50 rounded-lg transition-all"
+                                      title="Delete game"
+                                    >
+                                      <Trash2 className="w-5 h-5" />
+                                    </button>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Add/Edit Modal */}
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          onClick={(e) => {
+            // Close modal when clicking backdrop
+            if (e.target === e.currentTarget) {
+              closeModal();
+            }
+          }}
+        >
+          <div
+            className="bg-slate-800 rounded-2xl border border-slate-700 max-w-md w-full p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold mb-6">
+              {editingGame ? 'Edit Game' : 'Add New Game'}
+            </h2>
+
+            <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                  className="w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Opponent
+                </label>
+                <input
+                  type="text"
+                  value={formData.opponent}
+                  onChange={(e) => setFormData({ ...formData, opponent: e.target.value })}
+                  className="w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all"
+                  placeholder="Team name"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  className="w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all"
+                  placeholder="e.g. Memorial Field, Home, Away"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Field
+                </label>
+                <input
+                  type="text"
+                  value={formData.field || ''}
+                  onChange={(e) => setFormData({ ...formData, field: e.target.value })}
+                  className="w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all"
+                  placeholder="e.g. Field 1, Field A"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Time
+                </label>
+                <input
+                  type="text"
+                  value={formData.time}
+                  onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                  className="w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all"
+                  placeholder="e.g. 3:00 PM, 15:00"
+                />
+              </div>
+
+              {/* Game Status Toggle */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Game Status
+                </label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, status: 'scheduled' })}
+                    className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
+                      formData.status === 'scheduled'
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    Scheduled
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, status: 'completed' })}
+                    className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
+                      formData.status === 'completed'
+                        ? 'bg-[#16a34a] text-white'
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    Completed
+                  </button>
+                </div>
+              </div>
+
+              {/* Final Score - Only for Completed Games */}-
+              {formData.status === 'completed' && (
+                <div>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">
+                    Final Score
+                  </label>
+                  <input
+                    type="text"
+                    value={finalScore}
+                    onChange={(e) => setFinalScore(e.target.value)}
+                    className="w-full px-4 py-3 min-h-[44px] bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all"
+                    placeholder="e.g. W 28-21, 14-7"
+                  />
+                </div>
+              )}
+
+              {/* Award Dropdowns - Only for Completed Games */}
+              {formData.status === 'completed' && (() => {
+                const players = getRosterFromStorage();
+                const awardTypes = StorageManager.getAwardTypes();
+
+                return awardTypes.length > 0 ? (
+                  <div className="space-y-3">
+                    <label className="block text-sm font-semibold text-slate-300">
+                      Award Winners
+                    </label>
+                    {awardTypes.map((awardType) => (
+                      <div key={awardType.id}>
+                        <label className="block text-xs text-slate-400 mb-1">
+                          {awardType.name}
+                        </label>
+                        <select
+                          value={selectedAwards[awardType.name] || ''}
+                          onChange={(e) => setSelectedAwards({
+                            ...selectedAwards,
+                            [awardType.name]: parseInt(e.target.value) || 0
+                          })}
+                          className="w-full px-4 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all cursor-pointer"
+                        >
+                          <option value="">Select Player</option>
+                          {players.map((player) => (
+                            <option key={player.id} value={player.id}>
+                              #{player.jerseyNumber} {player.firstName} {player.lastName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+                ) : null;
+              })()}
+
+              {/* Game Notes */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Game Notes
+                  <span className="ml-2 text-xs text-slate-500">
+                    ({modalGameNotes.length}/{MAX_NOTES_LENGTH} characters)
+                  </span>
+                </label>
+                <textarea
+                  value={modalGameNotes}
+                  onChange={(e) => {
+                    if (e.target.value.length <= MAX_NOTES_LENGTH) {
+                      setModalGameNotes(e.target.value);
+                    }
+                  }}
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all resize-none"
+                  placeholder="Add notes about the game..."
+                  rows={4}
+                  maxLength={MAX_NOTES_LENGTH}
+                />
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="flex-1 px-6 py-3 min-h-[44px] bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all duration-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-6 py-3 min-h-[44px] bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300"
+                >
+                  {editingGame ? 'Update' : 'Add'} Game
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MVP Modal */}
+      {showMVPModal && mvpGame && (
+        <MVPModal
+          gameId={mvpGame.id}
+          gameName={`vs ${mvpGame.opponent}`}
+          onClose={closeMVPModal}
+          onSuccess={() => {
+            closeMVPModal();
+            // Reload games to show updated awards
+            const savedGames = StorageManager.getAllGames();
+            setGames(savedGames);
+            alert('Award successfully given!');
+          }}
+        />
+      )}
+
+      {/* Game Notes Modal */}
+      {showGameNotesModal && gameNotesGameId !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              closeGameNotesModal();
+            }
+          }}
+        >
+          <div
+            className="bg-slate-800 rounded-2xl border border-slate-700 max-w-2xl w-full p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold mb-6 flex items-center gap-2">
+              <FileText className="w-6 h-6 text-[#16a34a]" />
+              Game Notes
+            </h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Coach Notes (Visible to coaches only)
+                </label>
+                <textarea
+                  value={gameNotes}
+                  onChange={(e) => setGameNotes(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all resize-none"
+                  placeholder="Enter notes about game strategy, player performance, observations..."
+                  rows={8}
+                />
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={closeGameNotesModal}
+                  className="flex-1 px-6 py-3 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all duration-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveGameNotes}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300"
+                >
+                  Save Notes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Login Prompt Modal */}
+      <LoginPromptModal
+        isOpen={showLoginPrompt}
+        onClose={() => setShowLoginPrompt(false)}
+      />
+
+      {/* Invite Team Section - Coach Only */}
+      {canEdit && (
+        <div className="px-4 pb-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-6">
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl md:text-4xl font-bold mb-4 flex items-center gap-3">
+                <UserPlus className="w-8 h-8 text-[#16a34a]" />
+                Invite <span className="text-[#16a34a]">Team Members</span>
+              </h2>
+              <p className="text-slate-400 text-lg">
+                Send invitations to parents and players to join your team.
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <button
+                onClick={openInviteModal}
+                className="flex items-center gap-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300"
+              >
+                <Mail className="w-5 h-5" />
+                Send Invite
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {invites.map((invite) => (
+                <div
+                  key={invite.id}
+                  className="bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 hover:border-[#16a34a]/50 transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <Mail className="w-5 h-5 text-[#16a34a]" />
+                        <h3 className="text-lg font-bold text-white">{invite.email}</h3>
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          invite.status === 'pending'
+                            ? 'bg-yellow-500/20 text-yellow-400'
+                            : invite.status === 'accepted'
+                            ? 'bg-green-500/20 text-green-400'
+                            : 'bg-gray-500/20 text-gray-400'
+                        }`}>
+                          {invite.status}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-4 text-slate-400 text-sm">
+                        <span>Role: <strong className="text-slate-300">{invite.role}</strong></span>
+                        {invite.isAdmin && (
+                          <span className="text-[#16a34a]">â€¢ Admin Access</span>
+                        )}
+                        <span>â€¢ Sent {new Date(invite.sentAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleDeleteInvite(invite.id)}
+                        className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800/50 rounded-lg transition-all"
+                        title="Delete invite"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {invites.length === 0 && (
+                <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-12 text-center">
+                  <Mail className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-slate-400 mb-2">
+                    No Invites Sent Yet
+                  </h3>
+                  <p className="text-slate-500">
+                    Send your first invite to get team members onboard.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Invite Modal */}
+      {showInviteModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              closeInviteModal();
+            }
+          }}
+        >
+          <div
+            className="bg-slate-800 rounded-2xl border border-slate-700 max-w-md w-full p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold mb-6 flex items-center gap-2">
+              <Mail className="w-6 h-6 text-[#16a34a]" />
+              Send Team Invite
+            </h2>
+
+            <form onSubmit={handleSendInvite} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all"
+                  placeholder="teammate@example.com"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Role
+                </label>
+                <select
+                  value={inviteRole}
+                  onChange={(e) => setInviteRole(e.target.value as UserRole)}
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all cursor-pointer"
+                  required
+                >
+                  <option value="parent">Parent</option>
+                  <option value="player">Player</option>
+                </select>
+                <p className="mt-2 text-xs text-slate-500">
+                  {inviteRole === 'parent' && 'Parents can view team data and optionally have admin access.'}
+                  {inviteRole === 'player' && 'Players have view-only access to their stats and team info.'}
+                </p>
+              </div>
+
+              {inviteRole === 'parent' && (
+                <div className="flex items-start gap-3 p-4 bg-slate-900/30 rounded-lg border border-slate-700/50">
+                  <input
+                    type="checkbox"
+                    id="inviteIsAdmin"
+                    checked={inviteIsAdmin}
+                    onChange={(e) => setInviteIsAdmin(e.target.checked)}
+                    className="mt-1 w-5 h-5 rounded border-slate-600 bg-slate-800 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer"
+                  />
+                  <div>
+                    <label htmlFor="inviteIsAdmin" className="text-sm font-semibold text-slate-300 cursor-pointer">
+                      Grant Admin Access
+                    </label>
+                    <p className="text-xs text-slate-500 mt-1">
+                      Allow editing and managing team data
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={closeInviteModal}
+                  className="flex-1 px-6 py-3 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all duration-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300"
+                >
+                  Send Invite
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Tips Section */}
+      <div className="px-4 pb-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-6 text-center">
+              <span className="text-[#16a34a]">Quick Tips</span> for Managing Your Schedule
+            </h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Tip 1 */}
+              <div className="bg-slate-900/30 rounded-xl p-6 border border-slate-700/30">
+                <div className="flex items-center justify-center w-12 h-12 bg-[#16a34a]/20 rounded-full mb-4">
+                  <span className="text-[#16a34a] text-2xl font-bold">1</span>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Add Your Games
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  Click "Add Game" to create a new game entry. Fill in the opponent, date, time, and location details.
+                </p>
+              </div>
+
+              {/* Tip 2 */}
+              <div className="bg-slate-900/30 rounded-xl p-6 border border-slate-700/30">
+                <div className="flex items-center justify-center w-12 h-12 bg-[#16a34a]/20 rounded-full mb-4">
+                  <span className="text-[#16a34a] text-2xl font-bold">2</span>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Generate Lineups
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  Click "Generate Lineup" on any scheduled game to create a balanced player rotation for that matchup.
+                </p>
+              </div>
+
+              {/* Tip 3 */}
+              <div className="bg-slate-900/30 rounded-xl p-6 border border-slate-700/30">
+                <div className="flex items-center justify-center w-12 h-12 bg-[#16a34a]/20 rounded-full mb-4">
+                  <span className="text-[#16a34a] text-2xl font-bold">3</span>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Track Results & Awards
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  After the game, edit the game details to mark it as "Completed", add the final score, select MVP/award winners, and save game notes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 border-t border-slate-800/50">
+        <div className="max-w-7xl mx-auto text-center">
+          <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold mb-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] bg-clip-text text-transparent">
+            FlagFooty
+          </h3>
+          <p className="text-slate-500 text-sm">
+            &copy; {new Date().getFullYear()} FlagFooty. All rights reserved.
+          </p>
+        </div>
+      </footer>
+
+      {/* Scout Mode Popup */}
+      <ScoutModePopup
+        isOpen={showScoutPopup}
+        onDismiss={dismissScoutPopup}
+        onScoutMode={enterScoutMode}
+      />
+
+      {/* Scout Mode Banner */}
+      <ScoutModeBanner isVisible={showScoutBanner} />
+    </div>
+  );
+}
