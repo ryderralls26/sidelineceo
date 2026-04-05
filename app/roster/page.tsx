@@ -66,11 +66,7 @@ function RosterContent() {
   const [isFinalizing, setIsFinalizing] = useState(false);
 
   // Coach State
-  const [coaches, setCoaches] = useState<CoachData>({
-    coach1Name: '',
-    coach2Name: '',
-    selectedCoachIndex: 0,
-  });
+  const [coaches, setCoaches] = useState<CoachData>({\n    coach1Name: '',\n    coach2Name: '',\n    selectedCoachIndex: 0,\n  });
 
   // Login Prompt Modal
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
@@ -86,8 +82,7 @@ function RosterContent() {
       setPlayers(PLACEHOLDER_PLAYERS);
       const savedPositions = getPositionAbbreviations();
       setPositions(savedPositions);
-      return;
-    }
+      return;\n    }
 
     const savedRoster = getRosterFromStorage();
     if (savedRoster.length > 0) {
@@ -212,9 +207,7 @@ function RosterContent() {
       (num, idx, arr) => arr.indexOf(num) !== idx
     );
     return [...new Set(duplicates)];
-  };
-
-  const duplicateJerseys = getDuplicateJerseyNumbers();
+  };\n\n  const duplicateJerseys = getDuplicateJerseyNumbers();
   const playerCount = players.length;
   const hasMaxWarning = playerCount >= 9;
 
@@ -239,16 +232,7 @@ function RosterContent() {
       // First, save the lineup using the upsert API
       const upsertResponse = await fetch('/api/lineups/upsert', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          gameId: parseInt(gameId),
-          teamId: session.activeTeamId,
-          lineup: lineup,
-          roster: players,
-        }),
-      });
+        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({\n          gameId: parseInt(gameId),\n          teamId: session.activeTeamId,\n          lineup: lineup,\n          roster: players,\n        }),\n      });
 
       if (!upsertResponse.ok) {
         throw new Error('Failed to save lineup before finalization');
@@ -287,38 +271,32 @@ function RosterContent() {
       } else {
         throw new Error(result.error || 'Failed to finalize game');
       }
-    } catch (error) {
-      console.error('Failed to finalize game:', error);
-      alert('Failed to finalize game card. Please try again.');
-    } finally {
-      setIsFinalizing(false);
-    }
-  };
+    } catch (error) {\n      console.error('Failed to finalize game:', error);\n      alert('Failed to finalize game card. Please try again.');\n    } finally {\n      setIsFinalizing(false);\n    }\n  };
 
   return (
-    <div className="min-h-screen bg-[#1e293b] text-slate-100 font-[family-name:var(--font-inter)]">
+    <div className=\"min-h-screen bg-[#1e293b] text-slate-100 font-[family-name:var(--font-inter)]\">
       <Navigation />
 
       {/* Main Content */}
-      <div className="pt-24 px-4 pb-12 animate-in fade-in duration-200">
-        <div className="max-w-7xl mx-auto">
+      <div className=\"pt-24 px-4 pb-12 animate-in fade-in duration-200\">
+        <div className=\"max-w-7xl mx-auto\">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-bold mb-4">
+          <div className=\"mb-8\">
+            <h1 className=\"font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-bold mb-4\">
               {!isAuthenticated ? (
-                <>Team Name <span className="text-[#16a34a]">Roster</span> <span className="text-slate-400">FR Fall {new Date().getFullYear()}</span></>
+                <>Team Name <span className=\"text-[#16a34a]\">Roster</span> <span className=\"text-slate-400\">FR Fall {new Date().getFullYear()}</span></>
               ) : activeTeamName ? (
-                <>{activeTeamName} <span className="text-[#16a34a]">{isLineupMode ? 'Lineup' : 'Roster'}</span> {selectedDivision && <span className="text-slate-400">{selectedDivision}</span>} <span className="text-slate-400">{currentGame?.date ? new Date(currentGame.date).getFullYear() : new Date().getFullYear()}</span></>
+                <>{activeTeamName} <span className=\"text-[#16a34a]\">{isLineupMode ? 'Lineup' : 'Roster'}</span> {selectedDivision && <span className=\"text-slate-400\">{selectedDivision}</span>} <span className=\"text-slate-400\">{currentGame?.date ? new Date(currentGame.date).getFullYear() : new Date().getFullYear()}</span></>
               ) : (
-                <>My <span className="text-[#16a34a]">{isLineupMode ? 'Lineup' : 'Roster'}</span></>
+                <>My <span className=\"text-[#16a34a]\">{isLineupMode ? 'Lineup' : 'Roster'}</span></>
               )}
             </h1>
             {isLineupMode && currentGame ? (
-              <p className="text-slate-400 text-lg">
+              <p className=\"text-slate-400 text-lg\">
                 Select 6-10 players for lineup generation vs {currentGame.opponent}
               </p>
             ) : (
-              <p className="text-slate-400 text-lg">
+              <p className=\"text-slate-400 text-lg\">
                 Manage your players, positions, and game-day availability.
               </p>
             )}
@@ -326,19 +304,19 @@ function RosterContent() {
 
           {/* Warnings */}
           {(duplicateJerseys.length > 0 || hasMaxWarning) && (
-            <div className="mb-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6">
-              <div className="flex items-start gap-3">
-                <AlertTriangle className="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1" />
+            <div className=\"mb-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6\">
+              <div className=\"flex items-start gap-3\">
+                <AlertTriangle className=\"w-6 h-6 text-yellow-500 flex-shrink-0 mt-1\" />
                 <div>
-                  <h3 className="font-semibold text-yellow-400 mb-2">Warnings:</h3>
-                  <ul className="space-y-1">
+                  <h3 className=\"font-semibold text-yellow-400 mb-2\">Warnings:</h3>
+                  <ul className=\"space-y-1\">
                     {duplicateJerseys.length > 0 && (
-                      <li className="text-yellow-300 text-sm">
+                      <li className=\"text-yellow-300 text-sm\">
                         Duplicate jersey numbers found: {duplicateJerseys.join(', ')}
                       </li>
                     )}
                     {hasMaxWarning && (
-                      <li className="text-yellow-300 text-sm">
+                      <li className=\"text-yellow-300 text-sm\">
                         You have {playerCount} players. Recommended maximum is 8 players for optimal fair play.
                       </li>
                     )}
@@ -350,13 +328,13 @@ function RosterContent() {
 
           {/* Lineup Mode: Player Selection Counter */}
           {isLineupMode && (
-            <div className="mb-6 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6">
-              <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className=\"mb-6 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6\">
+              <div className=\"flex items-center justify-between flex-wrap gap-4\">
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">
+                  <h3 className=\"text-xl font-bold text-white mb-2\">
                     Player Selection
                   </h3>
-                  <p className="text-slate-400">
+                  <p className=\"text-slate-400\">
                     <span className={`font-bold text-2xl ${
                       players.filter(p => p.play).length >= 6 && players.filter(p => p.play).length <= 10
                         ? 'text-[#16a34a]'
@@ -364,7 +342,7 @@ function RosterContent() {
                     }`}>
                       {players.filter(p => p.play).length}
                     </span>
-                    <span className="text-slate-500"> of 10 players selected</span>
+                    <span className=\"text-slate-500\"> of 10 players selected</span>
                   </p>
                 </div>
                 <button
@@ -384,299 +362,14 @@ function RosterContent() {
 
           {/* Action Buttons - Coach Only */}
           {canEdit && !isLineupMode && (
-            <div className="mb-6 flex flex-col sm:flex-row flex-wrap gap-4">
+            <div className=\"mb-6 flex flex-col sm:flex-row flex-wrap gap-4\">
               <button
                 onClick={addPlayer}
-                className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300 min-h-[44px]"
+                className=\"flex items-center justify-center gap-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all duration-300 min-h-[44px]\"
               >
-                <Plus className="w-5 h-5" />
+                <Plus className=\"w-5 h-5\" />
                 Add Player
-              </button>
-              <button
+              </button>\n              <button
                 onClick={saveRoster}
-                className="flex items-center justify-center gap-2 bg-slate-800/50 border border-slate-700 text-slate-300 px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 hover:text-white transition-all duration-300 min-h-[44px]"
-              >
-                <Save className="w-5 h-5" />
-                Save Changes
-              </button>
-            </div>
-          )}
-
-          {/* Roster Table - Desktop view */}
-          <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden hidden md:block">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-slate-800/50 border-b border-slate-700">
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[60px]">
-                      Play
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[80px]">
-                      4Q Lock
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[80px]">
-                      #
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[120px]">
-                      First Name
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[120px]">
-                      Last Name
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[120px]">
-                      Nickname
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[140px]">
-                      Offensive Position
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[140px]">
-                      Defensive Position
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[140px]">
-                      Secondary Position
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[120px]">
-                      Division
-                    </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[100px]">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {players.map((player, index) => (
-                    <tr
-                      key={player.id}
-                      className={`border-b border-slate-700/30 hover:bg-slate-800/30 transition-colors ${
-                        index % 2 === 0 ? 'bg-slate-900/20' : ''
-                      }`}
-                    >
-                      <td className="px-4 py-4">
-                        <input
-                          type="checkbox"
-                          checked={player.play}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'play', e.target.checked)
-                          }
-                          disabled={!canEdit}
-                          className="w-5 h-5 rounded border-slate-600 bg-slate-800 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer disabled:opacity-50"
-                        />
-                      </td>
-                      <td className="px-4 py-4">
-                        <input
-                          type="checkbox"
-                          checked={player.fourthQuarterLock}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'fourthQuarterLock', e.target.checked)
-                          }
-                          disabled={!canEdit}
-                          className="w-5 h-5 rounded border-slate-600 bg-slate-800 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer disabled:opacity-50"
-                        />
-                      </td>
-                      <td className="px-4 py-4">
-                        <input
-                          type="text"
-                          value={player.jerseyNumber}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'jerseyNumber', e.target.value)
-                          }
-                          disabled={!canEdit}
-                          className={`w-full px-3 py-2 bg-slate-900/50 border rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all ${
-                            duplicateJerseys.includes(player.jerseyNumber)
-                              ? 'border-yellow-500'
-                              : 'border-slate-700'
-                          }`}
-                          placeholder="##"
-                        />
-                      </td>
-                      <td className="px-4 py-4">
-                        <input
-                          type="text"
-                          value={player.firstName}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'firstName', e.target.value)
-                          }
-                          disabled={!canEdit}
-                          className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all"
-                          placeholder="First"
-                        />
-                      </td>
-                      <td className="px-4 py-4">
-                        <input
-                          type="text"
-                          value={player.lastName}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'lastName', e.target.value)
-                          }
-                          disabled={!canEdit}
-                          className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all"
-                          placeholder="Last"
-                        />
-                      </td>
-                      <td className="px-4 py-4">
-                        <input
-                          type="text"
-                          value={player.nickname}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'nickname', e.target.value)
-                          }
-                          disabled={!canEdit}
-                          className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all"
-                          placeholder="Nickname"
-                        />
-                      </td>
-                      <td className="px-4 py-4">
-                        <select
-                          value={player.position1}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'position1', e.target.value)
-                          }
-                          disabled={!canEdit}
-                          className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all cursor-pointer"
-                        >
-                          <option value="">Select</option>
-                          {positions.map((pos) => (
-                            <option key={pos} value={pos}>
-                              {pos}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td className="px-4 py-4">
-                        <select
-                          value={player.position2}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'position2', e.target.value)
-                          }
-                          disabled={!canEdit}
-                          className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all cursor-pointer"
-                        >
-                          <option value="">Select</option>
-                          {positions.map((pos) => (
-                            <option key={pos} value={pos}>
-                              {pos}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td className="px-4 py-4">
-                        <select
-                          value={player.secondaryPosition || ''}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'secondaryPosition', e.target.value)
-                          }
-                          disabled={!canEdit}
-                          className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all cursor-pointer"
-                        >
-                          <option value="">Select</option>
-                          {positions.map((pos) => (
-                            <option key={pos} value={pos}>
-                              {pos}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td className="px-4 py-4">
-                        <select
-                          value={player.division || ''}
-                          onChange={(e) =>
-                            updatePlayer(player.id, 'division', e.target.value)
-                          }
-                          disabled={!canEdit}
-                          className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all cursor-pointer"
-                        >
-                          <option value="">Select</option>
-                          {divisions.map((div) => (
-                            <option key={div} value={div}>
-                              {div}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td className="px-4 py-4">
-                        <button
-                          onClick={() => deletePlayer(player.id)}
-                          disabled={!canEdit}
-                          className="text-red-400 hover:text-red-300 font-semibold transition-colors disabled:opacity-50"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Coaches Section */}
-          <div className="mt-12">
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl md:text-4xl font-bold mb-6">
-              Team <span className="text-[#16a34a]">Coaches</span>
-            </h2>
-            <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 p-4 bg-slate-900/20 rounded-lg border border-slate-700/30">
-                  <input
-                    type="radio"
-                    name="selectedCoach"
-                    checked={coaches.selectedCoachIndex === 0}
-                    onChange={() => selectCoach(0)}
-                    disabled={!canEdit}
-                    className="w-5 h-5 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    value={coaches.coach1Name}
-                    onChange={(e) => updateCoachName(0, e.target.value)}
-                    disabled={!canEdit}
-                    className="flex-1 px-4 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all"
-                    placeholder="Coach 1 Name"
-                  />
-                </div>
-                <div className="flex items-center gap-4 p-4 bg-slate-900/20 rounded-lg border border-slate-700/30">
-                  <input
-                    type="radio"
-                    name="selectedCoach"
-                    checked={coaches.selectedCoachIndex === 1}
-                    onChange={() => selectCoach(1)}
-                    disabled={!canEdit}
-                    className="w-5 h-5 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    value={coaches.coach2Name}
-                    onChange={(e) => updateCoachName(1, e.target.value)}
-                    disabled={!canEdit}
-                    className="flex-1 px-4 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all"
-                    placeholder="Coach 2 Name"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <footer className="py-12 px-4 border-t border-slate-800/50 mt-12">
-            <div className="max-w-7xl mx-auto text-center">
-              <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold mb-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] bg-clip-text text-transparent">
-                FlagFooty
-              </h3>
-              <p className="text-slate-500 text-sm">
-                &copy; {new Date().getFullYear()} FlagFooty. All rights reserved.
-              </p>
-            </div>
-          </footer>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function RosterPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-[#1e293b] text-slate-100 flex items-center justify-center">Loading...</div>}>
-      <RosterContent />
-    </Suspense>
-  );
-}
+                className=\"flex items-center justify-center gap-2 bg-slate-800/50 border border-slate-700 text-slate-300 px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 hover:text-white transition-all duration-300 min-h-[44px]\"
+              >\n                <Save className=\"w-5 h-5\" />\n                Save Changes\n              </button>\n            </div>\n          )}\n\n          {/* Roster Table - Desktop view */}\n          <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden hidden md:block\">\n            <div className=\"overflow-x-auto\">\n              <table className=\"w-full\">\n                <thead>\n                  <tr className=\"bg-slate-800/50 border-b border-slate-700\">\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[60px]\">\n                      Play\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[80px]\">\n                      4Q Lock\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[80px]\">\n                      #\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[120px]\">\n                      First Name\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[120px]\">\n                      Last Name\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[120px]\">\n                      Nickname\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[140px]\">\n                      Offensive Position\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[140px]\">\n                      Defensive Position\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[140px]\">\n                      Secondary Position\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[120px]\">\n                      Division\n                    </th>\n                    <th className=\"px-4 py-4 text-left text-sm font-semibold text-slate-300 min-w-[100px]\">\n                      Actions\n                    </th>\n                  </tr>\n                </thead>\n                <tbody>\n                  {players.map((player, index) => (\n                    <tr\n                      key={player.id}\n                      className={`border-b border-slate-700/30 hover:bg-slate-800/30 transition-colors ${\n                        index % 2 === 0 ? 'bg-slate-900/20' : ''\n                      }`}\n                    >\n                      <td className=\"px-4 py-4\">\n                        <input\n                          type=\"checkbox\"\n                          checked={player.play}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'play', e.target.checked)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-5 h-5 rounded border-slate-600 bg-slate-800 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer disabled:opacity-50\"\n                        />\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <input\n                          type=\"checkbox\"\n                          checked={player.fourthQuarterLock}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'fourthQuarterLock', e.target.checked)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-5 h-5 rounded border-slate-600 bg-slate-800 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer disabled:opacity-50\"\n                        />\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <input\n                          type=\"text\"\n                          value={player.jerseyNumber}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'jerseyNumber', e.target.value)\n                          }\n                          disabled={!canEdit}\n                          className={`w-full px-3 py-2 bg-slate-900/50 border rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all ${\n                            duplicateJerseys.includes(player.jerseyNumber)\n                              ? 'border-yellow-500'\n                              : 'border-slate-700'\n                          }`}\n                          placeholder=\"##\"\n                        />\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <input\n                          type=\"text\"\n                          value={player.firstName}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'firstName', e.target.value)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all\"\n                          placeholder=\"First\"\n                        />\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <input\n                          type=\"text\"\n                          value={player.lastName}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'lastName', e.target.value)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all\"\n                          placeholder=\"Last\"\n                        />\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <input\n                          type=\"text\"\n                          value={player.nickname}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'nickname', e.target.value)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all\"\n                          placeholder=\"Nickname\"\n                        />\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <select\n                          value={player.position1}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'position1', e.target.value)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all cursor-pointer\"\n                        >\n                          <option value=\"\">Select</option>\n                          {positions.map((pos) => (\n                            <option key={pos} value={pos}>\n                              {pos}\n                            </option>\n                          ))}\n                        </select>\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <select\n                          value={player.position2}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'position2', e.target.value)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all cursor-pointer\"\n                        >\n                          <option value=\"\">Select</option>\n                          {positions.map((pos) => (\n                            <option key={pos} value={pos}>\n                              {pos}\n                            </option>\n                          ))}\n                        </select>\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <select\n                          value={player.secondaryPosition || ''}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'secondaryPosition', e.target.value)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all cursor-pointer\"\n                        >\n                          <option value=\"\">Select</option>\n                          {positions.map((pos) => (\n                            <option key={pos} value={pos}>\n                              {pos}\n                            </option>\n                          ))}\n                        </select>\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <select\n                          value={player.division || ''}\n                          onChange={(e) =>\n                            updatePlayer(player.id, 'division', e.target.value)\n                          }\n                          disabled={!canEdit}\n                          className=\"w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all cursor-pointer\"\n                        >\n                          <option value=\"\">Select</option>\n                          {divisions.map((div) => (\n                            <option key={div} value={div}>\n                              {div}\n                            </option>\n                          ))}\n                        </select>\n                      </td>\n                      <td className=\"px-4 py-4\">\n                        <button\n                          onClick={() => deletePlayer(player.id)}\n                          disabled={!canEdit}\n                          className=\"text-red-400 hover:text-red-300 font-semibold transition-colors disabled:opacity-50\"\n                        >\n                          Delete\n                        </button>\n                      </td>\n                    </tr>\n                  ))}\n                </tbody>\n              </table>\n            </div>\n          </div>\n\n          <hr className=\"border-slate-700 my-8\" />\n\n          {/* Coaches Section */}\n          <div className=\"mt-12\">\n            <h2 className=\"font-[family-name:var(--font-playfair)] text-3xl md:text-4xl font-bold mb-6\">\n              Team <span className=\"text-[#16a34a]\">Coaches</span>\n            </h2>\n            <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6\">\n              <div className=\"space-y-4\">\n                <div className=\"flex items-center gap-4 p-4 bg-slate-900/20 rounded-lg border border-slate-700/30\">\n                  <input\n                    type=\"radio\"\n                    name=\"selectedCoach\"\n                    checked={coaches.selectedCoachIndex === 0}\n                    onChange={() => selectCoach(0)}\n                    disabled={!canEdit}\n                    className=\"w-5 h-5 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer\"\n                  />\n                  <input\n                    type=\"text\"\n                    value={coaches.coach1Name}\n                    onChange={(e) => updateCoachName(0, e.target.value)}\n                    disabled={!canEdit}\n                    className=\"flex-1 px-4 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all\"\n                    placeholder=\"Coach 1 Name\"\n                  />\n                </div>\n                <div className=\"flex items-center gap-4 p-4 bg-slate-900/20 rounded-lg border border-slate-700/30\">\n                  <input\n                    type=\"radio\"\n                    name=\"selectedCoach\"\n                    checked={coaches.selectedCoachIndex === 1}\n                    onChange={() => selectCoach(1)}\n                    disabled={!canEdit}\n                    className=\"w-5 h-5 text-[#16a34a] focus:ring-[#16a34a] focus:ring-offset-0 cursor-pointer\"\n                  />\n                  <input\n                    type=\"text\"\n                    value={coaches.coach2Name}\n                    onChange={(e) => updateCoachName(1, e.target.value)}\n                    disabled={!canEdit}\n                    className=\"flex-1 px-4 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]/20 transition-all\"\n                    placeholder=\"Coach 2 Name\"\n                  />\n                </div>\n              </div>\n            </div>\n          </div>\n\n          {/* Footer */}\n          <footer className=\"py-12 px-4 border-t border-slate-800/50 mt-12\">\n            <div className=\"max-w-7xl mx-auto text-center\">\n              <h3 className=\"font-[family-name:var(--font-playfair)] text-2xl font-bold mb-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] bg-clip-text text-transparent\">\n                FlagFooty\n              </h3>\n              <p className=\"text-slate-500 text-sm\">\n                &copy; {new Date().getFullYear()} FlagFooty. All rights reserved.\n              </p>\n            </div>\n          </footer>\n        </div>\n      </div>\n    </div>\n  );\n}\n\nexport default function RosterPage() {\n  return (\n    <Suspense fallback={<div className=\"min-h-screen bg-[#1e293b] text-slate-100 flex items-center justify-center\">Loading...</div>}>\n      <RosterContent />\n    </Suspense>\n  );\n}
