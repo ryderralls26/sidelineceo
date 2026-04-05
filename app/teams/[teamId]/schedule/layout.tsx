@@ -4,10 +4,11 @@ import { getTeam } from '@/lib/actions/teams';
 export async function generateMetadata({
   params,
 }: {
-  params: { teamId: string };
+  params: Promise<{ teamId: string }>;
 }): Promise<Metadata> {
   try {
-    const result = await getTeam(params.teamId);
+    const { teamId } = await params;
+    const result = await getTeam(teamId);
     const teamName = result.success && result.team ? result.team.name : 'Team';
 
     return {
