@@ -21,7 +21,7 @@ export function Footer() {
               </p>
             </div>
             <p className="text-sm text-slate-400">
-              © 2026 FlagFooty. All rights reserved.
+              &copy; 2026 FlagFooty. All rights reserved.
             </p>
           </div>
 
@@ -75,7 +75,7 @@ export function Footer() {
 
               <div className="space-y-2">
                 <a
-                  href="mailto:support@sidelinemgmt.space"
+                  href="mailto:support@flagfooty.com"
                   className="block text-slate-300 hover:text-[#16a34a] transition-colors duration-200"
                 >
                   Contact Support
