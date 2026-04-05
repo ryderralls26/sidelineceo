@@ -207,7 +207,7 @@ export default function Home() {
              {/* Header */}
               <div className="border-b-4 border-black px-6 py-4">
                 <div className="flex justify-between items-center mb-2">
-                  <div className="font-bold text-lg">Friday Night Lights</div>
+                  <div className="font-bold text-lg">FlagFooty</div>
                   <div className="font-bold text-lg">Coach&apos;s Card</div>
                 </div>
               </div>
