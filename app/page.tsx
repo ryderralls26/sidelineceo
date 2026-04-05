@@ -5,7 +5,7 @@ import { ShareButton } from '@/components/ShareButton';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'FlagFooty — Free Flag Football Team Management',
+  title: 'FlagFooty – Free Flag Football Team Management',
 };
 
 export default function Home() {
@@ -97,7 +97,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-bold mb-4">
-              Your Roster — <span className="text-[#22c55e]">Organized & Ready</span>
+              Your Roster – <span className="text-[#22c55e]">Organized & Ready</span>
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
               Add players, assign positions, and manage your full team in one place.
@@ -186,18 +186,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Invite Section & Tips */}
-          <div className="mt-12 grid md:grid-cols-2 gap-6">
-            <div className="bg-slate-800/30 backdrop-blur-sm p-6 rounded-xl border border-slate-700/50">
-              <h3 className="text-lg font-semibold text-slate-100 mb-2">Invite Your Team</h3>
-              <p className="text-sm text-slate-400">Share access with parents and players to keep everyone in the loop.</p>
-            </div>
-            <div className="bg-slate-800/30 backdrop-blur-sm p-6 rounded-xl border border-slate-700/50">
-              <h3 className="text-lg font-semibold text-slate-100 mb-2">Pro Tips</h3>
-              <p className="text-sm text-slate-400">Generate lineups before each game to ensure fair play time for all players.</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -206,26 +194,21 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-bold mb-4">
-              Pro Game Cards — <span className="text-[#22c55e]">Ready to Print</span>
+              Pro Game Cards – <span className="text-[#22c55e]">Ready to Print</span>
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Generate, edit, and print professional game cards in minutes — right from your phone or laptop.
+              Generate, edit, and print professional game cards in minutes – right from your phone or laptop.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Coach Card */}
             <div className="bg-white text-black rounded-lg overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
-              {/* Header */}
+             {/* Header */}
               <div className="border-b-4 border-black px-6 py-4">
                 <div className="flex justify-between items-center mb-2">
                   <div className="font-bold text-lg">Friday Night Lights</div>
                   <div className="font-bold text-lg">Coach&apos;s Card</div>
-                </div>
-              </div>
-              <div className="px-6 py-5">
-                <div className="flex items-center justify-between pt-3 border-t-2 border-gray-300">
-                  <span className="text-xs font-semibold text-gray-700">FlagFooty</span>
                 </div>
               </div>
             </div>
