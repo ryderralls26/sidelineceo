@@ -40,7 +40,7 @@ FlagFooty has been significantly enhanced with all core requested features. The 
 #### ✅ Time Display Repositioned
 - **NEW:** Time appears next to Location in grey text
 - Same font style as Location for consistency
-- Displays \"TBD\" when time is not set
+- Displays "TBD" when time is not set
 
 #### ✅ Game Notes Feature
 - **'Finalize' button replaced** with **'Game Notes' button**
@@ -50,7 +50,7 @@ FlagFooty has been significantly enhanced with all core requested features. The 
 
 #### ✅ Award Winners Display
 - Award winners **listed below each finalized game**
-- Format: \"MVP: Player Name\"
+- Format: "MVP: Player Name"
 - Displays all award types
 - Multiple awards supported per game
 - Yellow highlight badges for visibility
@@ -329,22 +329,22 @@ New types and storage methods added:
 
 #### Add a Game
 1. Go to Schedule page
-2. Click \"Add Game\"
+2. Click "Add Game"
 3. Fill in date, opponent, location, field, time
-4. Click \"Add Game\"
+4. Click "Add Game"
 
 #### Manage Divisions
 1. Go to MGMT page
-2. Click \"Add Division\"
-3. Enter name (e.g., \"Freshman\") and abbreviation (e.g., \"FR\")
-4. Click \"Add Division\"
+2. Click "Add Division"
+3. Enter name (e.g., "Freshman") and abbreviation (e.g., "FR")
+4. Click "Add Division"
 
 #### Award MVP
 1. Go to Schedule page
-2. Click \"MVP\" button on a game
+2. Click "MVP" button on a game
 3. Select player and award type
 4. Enter reason/notes
-5. Click \"Award\"
+5. Click "Award"
 
 #### View Leaderboard
 1. Go to Awards page
