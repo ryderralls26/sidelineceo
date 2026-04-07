@@ -1,4 +1,4 @@
-# Sideline CEO
+# FlagFooty
 
 A professional sports team management platform for coaches, featuring:
 
@@ -31,7 +31,7 @@ npm install
 
 2. Set up your database URL in `.env`:
 ```env
-DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
+DATABASE_URL=\"postgresql://user:password@host/database?sslmode=require\"
 ```
 
 3. Run database migrations:
