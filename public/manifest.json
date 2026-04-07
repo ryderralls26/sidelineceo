@@ -1,0 +1,21 @@
+{
+  "name": "FlagFooty — The Coach's Playbook for Team Success",
+  "short_name": "FlagFooty",
+  "description": "FlagFooty helps flag football coaches manage rosters, build fair-play lineups, track player awards, and print professional game cards.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
