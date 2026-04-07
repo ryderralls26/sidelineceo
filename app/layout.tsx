@@ -16,8 +16,29 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "FlagFooty - Pro Flag Football Management",
-  description: "Professional roster management, fair-play lineups, and game cards for flag football coaches.",
+  title: "FlagFooty — The Coach's Playbook for Team Success",
+  description: "FlagFooty helps flag football coaches manage rosters, build fair-play lineups, track player awards, and print professional game cards — all in one free platform.",
+  openGraph: {
+    title: "FlagFooty — The Coach's Playbook for Team Success",
+    description: "FlagFooty helps flag football coaches manage rosters, build fair-play lineups, track player awards, and print professional game cards — all in one free platform.",
+    url: "https://www.sidelinemgmt.space",
+    siteName: "FlagFooty",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FlagFooty — The Coach's Playbook for Team Success",
+    description: "FlagFooty helps flag football coaches manage rosters, build fair-play lineups, track player awards, and print professional game cards — all in one free platform.",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png" },
+    ],
+  },
 };
 
 export default function RootLayout({
