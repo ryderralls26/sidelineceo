@@ -1,5 +1,5 @@
 # PHASE 1 Implementation Summary
-## Velox Launch Landing Page - Core Management & Dashboard
+## FlagFooty Landing Page - Core Management & Dashboard
 
 **Implementation Date:** April 1, 2026
 **Status:** ✅ COMPLETE
@@ -27,8 +27,8 @@ This document summarizes the successful implementation of PHASE 1 features for t
 
 - **Functionality:**
   - Opens mailto link with pre-populated subject and body
-  - Subject: "Your Coaching Game Just Leveled Up 🏈"
-  - Includes referral message and link to `sidelinemgmt.space`
+  - Subject: \"Your Coaching Game Just Leveled Up 🏈\"
+  - Includes referral message and link to `flagfooty.app`
 
 #### Integration Points
 
@@ -38,12 +38,12 @@ This document summarizes the successful implementation of PHASE 1 features for t
    - Appears for authenticated users only
 
 2. **Dashboard** (`/app/dashboard/page.tsx`)
-   - "Recruit Your Crew" button in header
+   - \"Recruit Your Crew\" button in header
    - Positioned next to welcome message
 
 3. **Home Page** (`/app/page.tsx`)
-   - "Share Playbook" button in hero CTA section
-   - Positioned alongside "Sign Up Free" button
+   - \"Share Playbook\" button in hero CTA section
+   - Positioned alongside \"Sign Up Free\" button
 
 4. **Archive Page** (`/app/archive/page.tsx`)
    - Link variant in footer
@@ -98,7 +98,7 @@ This document summarizes the successful implementation of PHASE 1 features for t
 3. **Edit Team Functionality**
    - Modal now handles both Create and Edit modes
    - Pre-populates form fields when editing
-   - Updates button text: "Create Team" / "Update Team"
+   - Updates button text: \"Create Team\" / \"Update Team\"
    - Uses same modal for consistent UX
 
 ---
@@ -121,7 +121,7 @@ This document summarizes the successful implementation of PHASE 1 features for t
 #### `duplicateTeam()` Function
 
 **What Gets Copied:**
-- Team info (name with " (Copy)" suffix)
+- Team info (name with \" (Copy)\" suffix)
 - Logo URL
 - Division, Season, Year, Sport
 - **ROSTER:** Deep copy of all players (new unique records)
@@ -146,7 +146,7 @@ This document summarizes the successful implementation of PHASE 1 features for t
 
 #### User Flow
 1. User clicks ⋮ menu on team card
-2. Selects "Duplicate"
+2. Selects \"Duplicate\"
 3. Backend creates new team with copied data
 4. Success toast displayed
 5. Dashboard refreshes with new team
@@ -186,8 +186,8 @@ This document summarizes the successful implementation of PHASE 1 features for t
 
 #### Migration Script Features
 - Renames old award types in database:
-  - "Player of the Game" → "Defensive Player of the Game"
-  - "POYG" → "Defensive Player of the Game"
+  - \"Player of the Game\" → \"Defensive Player of the Game\"
+  - \"POYG\" → \"Defensive Player of the Game\"
 - Updates both `AwardType` and `Award` records
 - Uses Prisma transaction for data integrity
 - Provides console logging for transparency
@@ -242,8 +242,8 @@ This document summarizes the successful implementation of PHASE 1 features for t
 
 1. **Share Feature**
    - [ ] Click share icon in navigation
-   - [ ] Click "Recruit Your Crew" on dashboard
-   - [ ] Click "Share Playbook" on home page
+   - [ ] Click \"Recruit Your Crew\" on dashboard
+   - [ ] Click \"Share Playbook\" on home page
    - [ ] Click share link in archive footer
    - [ ] Verify mailto link opens correctly
 
