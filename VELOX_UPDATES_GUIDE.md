@@ -30,13 +30,13 @@ Complete team configuration including:
 - Full control from the beginning
 
 ### 4. Coach's Card
-- Renamed from "Line-Up Card" to "Coach's Card"
+- Renamed from \"Line-Up Card\" to \"Coach's Card\"
 - Fully editable (all fields can be changed)
 - Changes don't affect master roster
 - Perfect for game-day flexibility
 
 ### 5. 4 Cards Per Page Printing
-- Portrait orientation (8.5" × 11")
+- Portrait orientation (8.5\" × 11\")
 - Exactly 4 cards per page (2×2 grid)
 - 2 Coach's Cards + 2 Referee Cards
 - Optimized spacing and scaling
@@ -48,7 +48,7 @@ Complete team configuration including:
 1. **Access:** http://localhost:3000
 2. **Login:** coach@example.com / coach123
 3. **See Dashboard:** Automatically redirected after login
-4. **Create Team:** Click "Set Up a Team" button
+4. **Create Team:** Click \"Set Up a Team\" button
 5. **Add Players:** Click team card → Add players to roster
 6. **Generate Lineups:** Go to Schedule → Generate Lineup
 7. **Print Cards:** Print Preview → Print (4 cards per page)
@@ -64,7 +64,7 @@ Complete team configuration including:
 | `/app/login/page.tsx` | Redirect to dashboard |
 | `/app/signup/page.tsx` | Redirect to dashboard |
 | `/app/roster/page.tsx` | Cleared default players |
-| `/components/GameCards.tsx` | Renamed to "Coach's Card" |
+| `/components/GameCards.tsx` | Renamed to \"Coach's Card\" |
 | `/app/schedule/[gameId]/lineup/page.tsx` | 4 cards layout |
 | `/app/globals.css` | Portrait print layout |
 
@@ -78,9 +78,9 @@ Complete team configuration including:
 - [ ] View team card on dashboard
 - [ ] Click team card to navigate to roster
 - [ ] Verify roster is empty
-- [ ] Add a player and confirm "Play" is unchecked
+- [ ] Add a player and confirm \"Play\" is unchecked
 - [ ] Generate a lineup for a game
-- [ ] Verify "Coach's Card" label
+- [ ] Verify \"Coach's Card\" label
 - [ ] Edit card fields and confirm they don't save to roster
 - [ ] Print preview and verify 4 cards per page
 - [ ] Print to PDF and verify portrait orientation
@@ -102,7 +102,7 @@ The server is currently running and ready for testing.
 - Team logos stored as base64 data URLs
 - Print layout uses CSS Grid (2×2)
 - Cards scale to 95% for optimal fit
-- Portrait page: 0.25" margins
+- Portrait page: 0.25\" margins
 
 ---
 
