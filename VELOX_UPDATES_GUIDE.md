@@ -1,4 +1,4 @@
-# Velox Launch Updates - Quick Reference
+# FlagFooty Updates - Quick Reference
 
 **Project:** FlagFooty Platform
 **Date:** March 30, 2026
