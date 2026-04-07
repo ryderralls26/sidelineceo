@@ -22,7 +22,7 @@ All CRUD operations have been implemented as Server Actions:
 - ⚠️ Roster and Schedule pages: **Still using localStorage** (migration pattern provided)
 
 ### 4. Code Pushed to GitHub
-- ✅ Repository: https://github.com/ryderralls26/sidelineceo.git
+- ✅ Repository: https://github.com/ryderralls26/flagfooty.git
 - ✅ Branch: `main`
 - ✅ All files committed and pushed
 
@@ -32,7 +32,7 @@ All CRUD operations have been implemented as Server Actions:
 
 1. **Go to Vercel Dashboard**
    - Visit: https://vercel.com/dashboard
-   - Select your project (or create new: "sidelineceo")
+   - Select your project (or create new: \"flagfooty\")
 
 2. **Create Postgres Database**
    - Navigate to: **Storage** → **Create Database** → **Postgres**
@@ -43,14 +43,14 @@ All CRUD operations have been implemented as Server Actions:
    - Vercel will show you environment variables
    - Copy ALL of them (they look like this):
      ```
-     POSTGRES_URL="postgres://default:..."
-     POSTGRES_PRISMA_URL="postgres://default:...?pgbouncer=true..."
-     POSTGRES_URL_NO_SSL="postgres://default:..."
-     POSTGRES_URL_NON_POOLING="postgres://default:..."
-     POSTGRES_USER="default"
-     POSTGRES_HOST="ep-..."
-     POSTGRES_PASSWORD="..."
-     POSTGRES_DATABASE="verceldb"
+     POSTGRES_URL=\"postgres://default:...\"
+     POSTGRES_PRISMA_URL=\"postgres://default:...?pgbouncer=true...\"
+     POSTGRES_URL_NO_SSL=\"postgres://default:...\"
+     POSTGRES_URL_NON_POOLING=\"postgres://default:...\"
+     POSTGRES_USER=\"default\"
+     POSTGRES_HOST=\"ep-...\"
+     POSTGRES_PASSWORD=\"...\"
+     POSTGRES_DATABASE=\"verceldb\"
      ```
 
 4. **Update Local Environment**
@@ -62,7 +62,7 @@ All CRUD operations have been implemented as Server Actions:
 
 ```bash
 # Make sure you're in the project directory
-cd /path/to/sidelineceo
+cd /path/to/flagfooty
 
 # Install dependencies (if needed)
 npm install
@@ -81,7 +81,7 @@ This will create all the tables in your Vercel Postgres database.
 ```bash
 # Option A: Push to GitHub (Vercel auto-deploys)
 git add .
-git commit -m "Add Vercel Postgres credentials"
+git commit -m \"Add Vercel Postgres credentials\"
 git push origin main
 
 # Option B: Deploy with Vercel CLI
@@ -169,22 +169,22 @@ npx prisma db seed
 
 ## 🐛 Troubleshooting
 
-### "Error: Can't reach database server"
+### \"Error: Can't reach database server\"
 - Check `.env.local` has correct credentials
 - Verify Vercel Postgres database is running
 - Check firewall/network settings
 
-### "Migration failed"
+### \"Migration failed\"
 - Delete `prisma/migrations` folder
 - Run `npx prisma migrate reset`
 - Try `npx prisma migrate dev --name init` again
 
-### "Server Action not found"
+### \"Server Action not found\"
 - Ensure file starts with `'use server'`
 - Check import path is correct
 - Restart dev server
 
-### "Type errors with Prisma Client"
+### \"Type errors with Prisma Client\"
 - Run `npx prisma generate`
 - Restart TypeScript server in VS Code
 
