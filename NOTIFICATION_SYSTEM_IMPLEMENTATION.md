@@ -1,1 +1,163 @@
-# In-App Notification System Implementation\n\n## Overview\nSuccessfully implemented a comprehensive in-app notification system for the FlagFooty Landing Page with real-time polling, notification bell UI, and dashboard integration.\n\n## Features Implemented\n\n### 1. Database Schema (Prisma)\nAdded `Notification` model with the following fields:\n- `id` - Unique identifier (cuid)\n- `userId` - User receiving the notification\n- `teamId` - Optional team context\n- `type` - Enum: CARD_FINALIZED, INVITE_ACCEPTED, INVITE_PENDING\n- `message`  - Notification message text\n- `isRead`  - Boolean flag (default: false)\n- `createdAt` - Timestamp\n\n### 2. Notification Triggers\n\n#### Card Finalization (`lib/actions/games.ts:158`)\n- Triggers when a coach finalizes a game card\n- Creates notifications for all other coaches on the team (OWNER, ADMIN, CO_COACH roles)\n- Excludes the coach who performed the finalization\n- Message format: \"Game card finalized for {opponent} on {date}\"\n\n#### Invite Accepted (`lib/actions/invites.ts:109`)\n- Triggers when a user accepts a team invite\n- Creates notification for the coach who sent the invite\n- Type: INVITE_ACCEPTED\n- Message format: \"{firstName} {lastName} accepted your invite to join {teamName}\"\n\n#### Invite Sent (`lib/actions/invites.ts:9`)\n- Triggers when a coach sends a team invite\n- Creates notification for existing users who receive invites\n- Type: INVITE_PENDING\n- Message format: \"{firstName} {lastName} invited you to join {teamName}\"\n\n### 3. API Endpoints\n\n#### `/api/notifications/unread-count` (GET)\n- Returns the count of unread notifications for the authenticated user\n- Requires authentication\n- Response: `{ count: number }`\n\n#### `/api/notifications` (GET)\n- Returns last N notifications for the authenticated user\n- Query params: `limit` (default: 10)\n- Requires authentication\n- Response: `{ notifications: Notification[] }`\n\n#### `/api/notifications/mark-read` (POST)\n- Marks notification(s) as read\n- Body options:\n  - `{ notificationId: string }` - Mark single notification\n  - `{ markAll: true }` - Mark all as read\n- Requires authentication\n\n### 4. Notification Bell UI (`components/NotificationBell.tsx`)\n\nFeatures:\n- Bell icon in navigation bar\n- Green badge showing unread count (max display: 9+)\n- Dropdown panel with last 10 notifications\n- Click notification to navigate to relevant page:\n  - CARD_FINALIZED -> `/archive`\n  - INVITE_PENDING -> `/dashboard`\n  - Others -> `/dashboard`\n- \"Mark all as read\" button\n- Individual notifications marked read on click\n- Auto-dismisses dropdown when clicking outside\n- Time ago formatting (e.g., \"2h ago\", \"5m ago\")\n\n### 5. Polling Engine\n- Implemented in `NotificationBell` component\n- Polls `/api/notifications/unread-count` every 60 seconds\n- Only runs while user is logged in\n- Automatically updates badge count\n\n### 6. Dashboard Integration (`app/dashboard/page.tsx`)\n\nAdded pending invite card:\n- Prominently displayed at top of dashboard\n- Shows all INVITE_PENDING notifications\n- Green/navy themed card matching FlagFooty aesthetic\n- \"View Invite\" button for each pending invite\n- Only visible when pending invites exist\n\n## File Structure\n\n```\n/home/user/app/\n├── prisma/\n│   └── schema.prisma                   # Updated with Notification model\n├── lib/\n│   └── actions/\n│       ├── notifications.ts               # NEW: Notification CRUD operations\n│       ├── games.ts                       # Updated: Card finalization trigger\n│       └── invites.ts                     # Updated: Invite triggers\n├── app/\n│   ├── api/\n│   │   └── notifications/\n│   │       ├── route.ts                   # NEW: Get notifications\n│   │       ├── unread-count/\n│   │       │   └── route.ts               # NEW: Get unread count\n│   │       └── mark-read/\n│   │           └── route.ts               # NEW: Mark as read\n│   └── dashboard/\\n│       └── page.tsx                      # Updated: Pending invite card\n└── components/\n    ├── NotificationBell.tsx              # NEW: Bell icon + dropdown\n    └── Navigation.tsx                    # Updated: Added bell icon\n```\n\n## Styling\nAll components follow the FlagFooty dark navy/green theme:\n- Primary green: `#16a34a`\n- Secondary green: `#22c55e`\n- Dark navy background: `#1e293b`\n- Slate borders and accents\n\n## Technical Details\n\n### Authentication\nAll API endpoints use `getSession()` from `/lib/session.ts` for authentication\n\n### Database\n- SQLite database (`dev.db`)\n- Prisma ORM\n- Schema updated with `npx prisma db push`\n\n### Type Safety\nFull TypeScript type safety with Prisma-generated types:\n- `NotificationType` enum\n- `Notification` model\n- Type-safe API responses\n\n## Testing\n- Build successful: `npm run build`\n- Dev server running on port 3000\n- All API endpoints functional\n- UI components rendering correctly\n\n## Next Steps (Optional Future Enhancements)\n1. Email notifications for INVITE_PENDING\n2. Push notifications (browser API)\n3. Notification preferences per user\n4. Bulk delete notifications\n5. Notification categories/filters\n6. Sound/visual alerts for new notifications\n7. Mark as read on hover (optional UX)\n\n## Implementation Complete\nAll requirements from Prompt 34 have been successfully implemented:\n- ✅ Prisma schema with Notification model\n- ✅ Triggers on finalize, invite accept, and invite sent\n- ✅ Navigation bell icon with dropdown\n- ✅ Unread count badge\n- ✅ Mark all as read functionality\n- ✅ Dashboard pending invite card\n- ✅ 60-second polling engine\n- ✅ Dark navy/green FlagFooty theme\n\nThe notification system is production-ready and fully integrated with the existing codebase.\n
+# In-App Notification System Implementation
+
+## Overview
+Successfully implemented a comprehensive in-app notification system for the FlagFooty Landing Page with real-time polling, notification bell UI, and dashboard integration.
+
+## Features Implemented
+
+### 1. Database Schema (Prisma)
+Added `Notification` model with the following fields:
+- `id` - Unique identifier (cuid)
+- `userId` - User receiving the notification
+- `teamId` - Optional team context
+- `type` - Enum: CARD_FINALIZED, INVITE_ACCEPTED, INVITE_PENDING
+- `message`  - Notification message text
+- `isRead`  - Boolean flag (default: false)
+- `createdAt` - Timestamp
+
+### 2. Notification Triggers
+
+#### Card Finalization (`lib/actions/games.ts:158`)
+- Triggers when a coach finalizes a game card
+- Creates notifications for all other coaches on the team (OWNER, ADMIN, CO_COACH roles)
+- Excludes the coach who performed the finalization
+- Message format: "Game card finalized for {opponent} on {date}"
+
+#### Invite Accepted (`lib/actions/invites.ts:109`)
+- Triggers when a user accepts a team invite
+- Creates notification for the coach who sent the invite
+- Type: INVITE_ACCEPTED
+- Message format: "{firstName} {lastName} accepted your invite to join {teamName}"
+
+#### Invite Sent (`lib/actions/invites.ts:9`)
+- Triggers when a coach sends a team invite
+- Creates notification for existing users who receive invites
+- Type: INVITE_PENDING
+- Message format: "{firstName} {lastName} invited you to join {teamName}"
+
+### 3. API Endpoints
+
+#### `/api/notifications/unread-count` (GET)
+- Returns the count of unread notifications for the authenticated user
+- Requires authentication
+- Response: `{ count: number }`
+
+#### `/api/notifications` (GET)
+- Returns last N notifications for the authenticated user
+- Query params: `limit` (default: 10)
+- Requires authentication
+- Response: `{ notifications: Notification[] }`
+
+#### `/api/notifications/mark-read` (POST)
+- Marks notification(s) as read
+- Body options:
+  - `{ notificationId: string }` - Mark single notification
+  - `{ markAll: true }` - Mark all as read
+- Requires authentication
+
+### 4. Notification Bell UI (`components/NotificationBell.tsx`)
+
+Features:
+- Bell icon in navigation bar
+- Green badge showing unread count (max display: 9+)
+- Dropdown panel with last 10 notifications
+- Click notification to navigate to relevant page:
+  - CARD_FINALIZED -> `/archive`
+  - INVITE_PENDING -> `/dashboard`
+  - Others -> `/dashboard`
+- "Mark all as read" button
+- Individual notifications marked read on click
+- Auto-dismisses dropdown when clicking outside
+- Time ago formatting (e.g., "2h ago", "5m ago")
+
+### 5. Polling Engine
+- Implemented in `NotificationBell` component
+- Polls `/api/notifications/unread-count` every 60 seconds
+- Only runs while user is logged in
+- Automatically updates badge count
+
+### 6. Dashboard Integration (`app/dashboard/page.tsx`)
+
+Added pending invite card:
+- Prominently displayed at top of dashboard
+- Shows all INVITE_PENDING notifications
+- Green/navy themed card matching FlagFooty aesthetic
+- "View Invite" button for each pending invite
+- Only visible when pending invites exist
+
+## File Structure
+
+```
+/home/user/app/
+├── prisma/
+│   └── schema.prisma                   # Updated with Notification model
+├── lib/
+│   └── actions/
+│       ├── notifications.ts               # NEW: Notification CRUD operations
+│       ├── games.ts                       # Updated: Card finalization trigger
+│       └── invites.ts                     # Updated: Invite triggers
+├── app/
+│   ├── api/
+│   │   └── notifications/
+│   │       ├── route.ts                   # NEW: Get notifications
+│   │       ├── unread-count/
+│   │       │   └── route.ts               # NEW: Get unread count
+│   │       └── mark-read/
+│   │           └── route.ts               # NEW: Mark as read
+│   └── dashboard/\
+│       └── page.tsx                      # Updated: Pending invite card
+└── components/
+    ├── NotificationBell.tsx              # NEW: Bell icon + dropdown
+    └── Navigation.tsx                    # Updated: Added bell icon
+```
+
+## Styling
+All components follow the FlagFooty dark navy/green theme:
+- Primary green: `#16a34a`
+- Secondary green: `#22c55e`
+- Dark navy background: `#1e293b`
+- Slate borders and accents
+
+## Technical Details
+
+### Authentication
+All API endpoints use `getSession()` from `/lib/session.ts` for authentication
+
+### Database
+- SQLite database (`dev.db`)
+- Prisma ORM
+- Schema updated with `npx prisma db push`
+
+### Type Safety
+Full TypeScript type safety with Prisma-generated types:
+- `NotificationType` enum
+- `Notification` model
+- Type-safe API responses
+
+## Testing
+- Build successful: `npm run build`
+- Dev server running on port 3000
+- All API endpoints functional
+- UI components rendering correctly
+
+## Next Steps (Optional Future Enhancements)
+1. Email notifications for INVITE_PENDING
+2. Push notifications (browser API)
+3. Notification preferences per user
+4. Bulk delete notifications
+5. Notification categories/filters
+6. Sound/visual alerts for new notifications
+7. Mark as read on hover (optional UX)
+
+## Implementation Complete
+All requirements from Prompt 34 have been successfully implemented:
+- ✅ Prisma schema with Notification model
+- ✅ Triggers on finalize, invite accept, and invite sent
+- ✅ Navigation bell icon with dropdown
+- ✅ Unread count badge
+- ✅ Mark all as read functionality
+- ✅ Dashboard pending invite card
+- ✅ 60-second polling engine
+- ✅ Dark navy/green FlagFooty theme
+
+The notification system is production-ready and fully integrated with the existing codebase.
