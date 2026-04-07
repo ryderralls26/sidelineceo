@@ -4,8 +4,8 @@
 
 ### 1. Create Database (5 min)
 Go to [Vercel Dashboard](https://vercel.com/dashboard) → Storage → Create Database
-- Choose "Neon Postgres"  
-- Name: `sidelineceo-db`
+- Choose \"Neon Postgres\"  
+- Name: `flagfooty-db`
 - Copy the `DATABASE_URL`
 
 ### 2. Set Environment Variable (2 min)
