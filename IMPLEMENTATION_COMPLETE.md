@@ -26,7 +26,7 @@ Verified implementations:
 - ✅ Radio button selection (exclusive selection working)
 - ✅ Selected coach name flows to game cards
 - ✅ CoachCard shows position abbreviations (QB, WR, etc.)
-- ✅ RefereeCard shows \"X\" markers in quarters
+- ✅ RefereeCard shows "X" markers in quarters
 - ✅ Cards display side-by-side (2-up layout)
 - ✅ All card fields are editable (Team, Coach, Opponent, etc.)
 - ✅ Print button with archive functionality
@@ -34,7 +34,7 @@ Verified implementations:
 
 #### 3. Enhancement Implemented
 **One optional improvement made:**
-- Enhanced time display in schedule page to always show \"Time\" label with \"TBD\" placeholder when not set
+- Enhanced time display in schedule page to always show "Time" label with "TBD" placeholder when not set
 - **File:** app/schedule/page.tsx (lines 343-350)
 - **Benefit:** More consistent UI and clearer information display
 
@@ -125,7 +125,7 @@ Verified implementations:
 ### ✅ All Features Verified
 
 **Schedule Page**
-- ✅ Time displays \"TBD\" when not set
+- ✅ Time displays "TBD" when not set
 - ✅ Time shows actual time when set
 - ✅ Add Game button only visible to coach/admin
 - ✅ MVP button only visible to coaches
@@ -139,7 +139,7 @@ Verified implementations:
 
 **Game Cards**
 - ✅ CoachCard shows position abbreviations in Q1-Q4
-- ✅ RefereeCard shows \"X\" in Q1-Q4
+- ✅ RefereeCard shows "X" in Q1-Q4
 - ✅ Both cards side-by-side on desktop
 - ✅ All fields editable on cards
 - ✅ Print button works and archives
@@ -169,7 +169,7 @@ Verified implementations:
 
 **1. Add a Game:**
 - Go to Schedule page
-- Click \"Add Game\"
+- Click "Add Game"
 - Fill in date, opponent, location, field, time
 - Submit
 
@@ -184,18 +184,18 @@ Verified implementations:
 - Go to Roster page (with or without gameId parameter)
 - Review live preview of CoachCard and RefereeCard
 - Edit fields as needed (Team Name, Division, etc.)
-- Click \"Print Game Cards\"
+- Click "Print Game Cards"
 - Cards are archived automatically
 
-#### 4. Finalize a Game:
+**4. Finalize a Game:**
 - Go to Schedule page
-- Click \"Finalize\" on a game
+- Click "Finalize" on a game
 - Game is archived with current roster snapshot
-- Access via \"Final Roster\" link
+- Access via "Final Roster" link
 
 **5. Award MVP:**
 - Go to Schedule page
-- Click \"MVP\" button (coaches only)
+- Click "MVP" button (coaches only)
 - Select player and award type
 - Submit
 
