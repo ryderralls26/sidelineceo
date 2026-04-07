@@ -2,7 +2,7 @@
 
 ## Summary
 
-The Velox Launch (FlagFooty) application has been successfully migrated from LocalStorage to a persistent Vercel Postgres database. All changes have been pushed to GitHub and are ready for production deployment.
+The FlagFooty (FlagFooty) application has been successfully migrated from LocalStorage to a persistent Vercel Postgres database. All changes have been pushed to GitHub and are ready for production deployment.
 
 ## ✅ What Was Completed
 
