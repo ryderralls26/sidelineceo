@@ -70,10 +70,10 @@ export default function GameSummaryPage() {
 
   if (!game) {
     return (
-      <div className="min-h-screen bg-[#1e293b] text-slate-100 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-xl text-slate-400">Game not found</p>
-          <Link href="/schedule" className="text-[#16a34a] hover:underline mt-4 inline-block">
+      <div className=\"min-h-screen bg-[#1e293b] text-slate-100 flex items-center justify-center\">
+        <div className=\"text-center\">
+          <p className=\"text-xl text-slate-400\">Game not found</p>
+          <Link href=\"/schedule\" className=\"text-[#16a34a] hover:underline mt-4 inline-block\">
             Back to Schedule
           </Link>
         </div>
@@ -82,152 +82,8 @@ export default function GameSummaryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1e293b] text-slate-100 font-[family-name:var(--font-inter)]">
+    <div className=\"min-h-screen bg-[#1e293b] text-slate-100 font-[family-name:var(--font-inter)]\">
       <Navigation />
 
       {/* Main Content */}
-      <div className="pt-24 px-4 pb-12">
-        <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
-          <Link
-            href="/schedule"
-            className="inline-flex items-center gap-2 text-slate-400 hover:text-[#16a34a] mb-6 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Schedule
-          </Link>
-
-          {/* Game Header */}
-          <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 mb-8">
-            <div className="text-center mb-6">
-              <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-bold mb-2">
-                vs <span className="text-[#16a34a]">{game.opponent}</span>
-              </h1>
-              <p className="text-slate-400 text-lg">Game Summary</p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-4 text-center">
-              <div className="bg-slate-900/30 rounded-xl p-4">
-                <Calendar className="w-6 h-6 text-[#16a34a] mx-auto mb-2" />
-                <p className="text-sm text-slate-400">Date</p>
-                <p className="text-white font-semibold">{formatDate(game.date)}</p>
-              </div>
-              <div className="bg-slate-900/30 rounded-xl p-4">
-                <MapPin className="w-6 h-6 text-[#16a34a] mx-auto mb-2" />
-                <p className="text-sm text-slate-400">Location</p>
-                <p className="text-white font-semibold">{game.location}</p>
-              </div>
-              <div className="bg-slate-900/30 rounded-xl p-4">
-                <Trophy className="w-6 h-6 text-[#16a34a] mx-auto mb-2" />
-                <p className="text-sm text-slate-400">Time</p>
-                <p className="text-white font-semibold">{game.time || '5:00 PM'}</p>
-              </div>
-            </div>
-
-            {game.field && (
-              <div className="mt-4 text-center">
-                <p className="text-slate-400 text-sm">Field: <span className="text-white font-semibold">{game.field}</span></p>
-              </div>
-            )}
-          </div>
-
-          {/* Final Score - Bold & Centered */}
-          {finalScore && (
-            <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 mb-8">
-              <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-4 text-center">
-                Final <span className="text-[#16a34a]">Score</span>
-              </h2>
-              <p className="text-4xl md:text-6xl font-bold text-center text-white">
-                {finalScore}
-              </p>
-            </div>
-          )}
-
-          {/* Award Winners List */}
-          {awards.length > 0 && (
-            <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 mb-8">
-              <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-6 text-center">
-                <span className="text-[#16a34a]">Award</span> Winners
-              </h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {awards.map(award => {
-                  const player = getPlayerById(award.playerId);
-                  return (
-                    <div key={award.id} className="bg-slate-900/30 rounded-xl p-6 border border-slate-700/30">
-                      <div className="flex items-center gap-4">
-                        <div className="flex-shrink-0 w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center">
-                          <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-sm text-slate-400 mb-1">{award.awardType}</p>
-                          <p className="text-lg font-bold text-white">
-                            {player ? (
-                              <>
-                                #{player.jerseyNumber} {player.firstName} {player.lastName}
-                                {player.nickname && (
-                                  <span className="text-sm text-slate-400 ml-2">"{player.nickname}"</span>
-                                )}
-                              </>
-                            ) : (
-                              'Unknown Player'
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Game Notes */}
-          {gameNotes && (
-            <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 mb-8">
-              <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-6 text-center">
-                Game <span className="text-[#16a34a]">Notes</span>
-              </h2>
-              <div className="bg-slate-900/30 rounded-xl p-6 border border-slate-700/30">
-                <p className="text-slate-300 whitespace-pre-wrap">{gameNotes}</p>
-              </div>
-            </div>
-          )}
-
-          {/* Game Card Preview */}
-          <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
-            <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-6 text-center">
-              Game <span className="text-[#16a34a]">Cards</span>
-            </h2>
-            <p className="text-slate-400 text-center mb-6">
-              Preview of the game cards used for this matchup
-            </p>
-            <GameCardsWithSharedState
-              players={players}
-              gameInfo={{
-                opponent: game.opponent,
-                date: game.date,
-                location: game.location,
-                field: game.field,
-                time: game.time,
-              }}
-              positions={[]}
-              coachName={session ? `${session.firstName} ${session.lastName}` : 'Coach'}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="py-12 px-4 border-t border-slate-800/50">
-        <div className="max-w-7xl mx-auto text-center">
-          <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold mb-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] bg-clip-text text-transparent">
-            SidelineCEO
-          </h3>
-          <p className="text-slate-500 text-sm">
-            &copy; {new Date().getFullYear()} SidelineCEO. All rights reserved.
-          </p>
-        </div>
-      </footer>
-    </div>
-  );
-}
+      <div className=\"pt-24 px-4 pb-12\">\n        <div className=\"max-w-7xl mx-auto\">\n          {/* Back Button */}\n          <Link\n            href=\"/schedule\"\n            className=\"inline-flex items-center gap-2 text-slate-400 hover:text-[#16a34a] mb-6 transition-colors\"\n          >\n            <ArrowLeft className=\"w-4 h-4\" />\n            Back to Schedule\n          </Link>\n\n          {/* Game Header */}\n          <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 mb-8\">\n            <div className=\"text-center mb-6\">\n              <h1 className=\"font-[family-name:var(--font-playfair)] text-4xl md:text-5xl font-bold mb-2\">\n                vs <span className=\"text-[#16a34a]\">{game.opponent}</span>\n              </h1>\n              <p className=\"text-slate-400 text-lg\">Game Summary</p>\n            </div>\n\n            <div className=\"grid md:grid-cols-3 gap-4 text-center\">\n              <div className=\"bg-slate-900/30 rounded-xl p-4\">\n                <Calendar className=\"w-6 h-6 text-[#16a34a] mx-auto mb-2\" />\n                <p className=\"text-sm text-slate-400\">Date</p>\n                <p className=\"text-white font-semibold\">{formatDate(game.date)}</p>\n              </div>\n              <div className=\"bg-slate-900/30 rounded-xl p-4\">\n                <MapPin className=\"w-6 h-6 text-[#16a34a] mx-auto mb-2\" />\n                <p className=\"text-sm text-slate-400\">Location</p>\n                <p className=\"text-white font-semibold\">{game.location}</p>\n              </div>\n              <div className=\"bg-slate-900/30 rounded-xl p-4\">\n                <Trophy className=\"w-6 h-6 text-[#16a34a] mx-auto mb-2\" />\n                <p className=\"text-sm text-slate-400\">Time</p>\n                <p className=\"text-white font-semibold\">{game.time || '5:00 PM'}</p>\n              </div>\n            </div>\n\n            {game.field && (\n              <div className=\"mt-4 text-center\">\n                <p className=\"text-slate-400 text-sm\">Field: <span className=\"text-white font-semibold\">{game.field}</span></p>\n              </div>\n            )}\n          </div>\n\n          {/* Final Score - Bold & Centered */}\n          {finalScore && (\n            <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 mb-8\">\n              <h2 className=\"font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-4 text-center\">\n                Final <span className=\"text-[#16a34a]\">Score</span>\n              </h2>\n              <p className=\"text-4xl md:text-6xl font-bold text-center text-white\">\n                {finalScore}\n              </p>\n            </div>\n          )}\n\n          {/* Award Winners List */}\n          {awards.length > 0 && (\n            <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 mb-8\">\n              <h2 className=\"font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-6 text-center\">\n                <span className=\"text-[#16a34a]\">Award</span> Winners\n              </h2>\n              <div className=\"grid md:grid-cols-2 gap-4\">\n                {awards.map(award => {\n                  const player = getPlayerById(award.playerId);\n                  return (\n                    <div key={award.id} className=\"bg-slate-900/30 rounded-xl p-6 border border-slate-700/30\">\n                      <div className=\"flex items-center gap-4\">\n                        <div className=\"flex-shrink-0 w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center\">\n                          <Star className=\"w-6 h-6 text-yellow-400 fill-yellow-400\" />\n                        </div>\n                        <div className=\"flex-1\">\n                          <p className=\"text-sm text-slate-400 mb-1\">{award.awardType}</p>\n                          <p className=\"text-lg font-bold text-white\">\n                            {player ? (\n                              <>\n                                #{player.jerseyNumber} {player.firstName} {player.lastName}\n                                {player.nickname && (\n                                  <span className=\"text-sm text-slate-400 ml-2\">\"{player.nickname}\"</span>\n                                )}\n                              </>\n                            ) : (\n                              'Unknown Player'\n                            )}\n                          </p>\n                        </div>\n                      </div>\n                    </div>\n                  );\n                })}\n              </div>\n            </div>\n          )}\n\n          {/* Game Notes */}\n          {gameNotes && (\n            <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 mb-8\">\n              <h2 className=\"font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-6 text-center\">\n                Game <span className=\"text-[#16a34a]\">Notes</span>\n              </h2>\n              <div className=\"bg-slate-900/30 rounded-xl p-6 border border-slate-700/30\">\n                <p className=\"text-slate-300 whitespace-pre-wrap\">{gameNotes}</p>\n              </div>\n            </div>\n          )}\n\n          {/* Game Card Preview */}\n          <div className=\"bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8\">\n            <h2 className=\"font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold mb-6 text-center\">\n              Game <span className=\"text-[#16a34a]\">Cards</span>\n            </h2>\n            <p className=\"text-slate-400 text-center mb-6\">\n              Preview of the game cards used for this matchup\n            </p>\n            <GameCardsWithSharedState\n              players={players}\n              gameInfo={{\n                opponent: game.opponent,\n                date: game.date,\n                location: game.location,\n                field: game.field,\n                time: game.time,\n              }}\n              positions={[]}\n              coachName={session ? `${session.firstName} ${session.lastName}` : 'Coach'}\n            />\n          </div>\n        </div>\n      </div>\n\n      {/* Footer */}\n      <footer className=\"py-12 px-4 border-t border-slate-800/50\">\n        <div className=\"max-w-7xl mx-auto text-center\">\n          <h3 className=\"font-[family-name:var(--font-playfair)] text-2xl font-bold mb-2 bg-gradient-to-r from-[#16a34a] to-[#22c55e] bg-clip-text text-transparent\">\n            FlagFooty\n          </h3>\n          <p className=\"text-slate-500 text-sm\">\n            &copy; {new Date().getFullYear()} FlagFooty. All rights reserved.\n          </p>\n        </div>\n      </footer>\n    </div>\n  );\n}\n
