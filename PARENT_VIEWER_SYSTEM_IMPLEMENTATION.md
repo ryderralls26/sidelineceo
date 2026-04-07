@@ -13,7 +13,6 @@ Successfully implemented the final feature for FlagFooty: a complete Parent/View
 
 Added/Updated:
 - **Invite Model**: Enhanced with team-specific invitations
-  - `teamId`: Links invite to specific team
   - `token`: Unique UUID for secure invite links
   - `status`: PENDING/ACCEPTED/EXPIRED
   - Proper relations to Team and User models
@@ -55,7 +54,7 @@ Beautiful modal UI with:
 **Integration:** `app/coach-dashboard/CoachDashboardClient.tsx`
 
 Added:
-- "Invite Parent" button (UserPlus icon) on each team card
+- \"Invite Parent\" button (UserPlus icon) on each team card
 - Modal integration
 - Coach can invite parents from team management interface
 
@@ -77,7 +76,7 @@ Complete invite acceptance flow:
 Completely rebuilt dashboard supporting both roles:
 - **Coaches**: See teams they manage (COACH role badge)
 - **Parents**: See teams they're viewing (VIEWER role badge)
-- Separate sections for "My Teams" vs "Teams I'm Viewing"
+- Separate sections for \"My Teams\" vs \"Teams I'm Viewing\"
 - Different styling for coach vs viewer teams
 - Click handling routes to appropriate views based on role
 
@@ -88,7 +87,7 @@ Completely rebuilt dashboard supporting both roles:
 
 - Shows ONLY player names and jersey numbers
 - Hides contact information and parent details
-- Clear "Viewer Access" badge
+- Clear \"Viewer Access\" badge
 - Tab navigation to schedule and archive
 - Access control enforcement
 - Beautiful table layout with jersey number badges
@@ -166,8 +165,8 @@ The system fully supports:
 │           │   └── page.tsx                   # NEW: Parent roster view
 │           ├── schedule/
 │           │   └── page.tsx                   # NEW: Parent schedule view
-│           └── archive/
-│               └── page.tsx                   # NEW: Parent archive view
+│           ├── archive/
+│           │   └── page.tsx                   # NEW: Parent archive view
 └── .env.local                                 # Created: Database connection
 ```
 
@@ -183,7 +182,7 @@ The system fully supports:
 
 ### For Parents:
 
-1. **Receive invite link** from coach (e.g., `https://sidelinemgmt.space/join?token=xyz`)
+1. **Receive invite link** from coach (e.g., `https://flagfooty.app/join?token=xyz`)
 2. **Click the link** and either:
    - Sign up for a new account
    - Sign in with existing account
@@ -252,7 +251,7 @@ Replace the mock `sendInviteEmail()` function with your chosen service.
 3. **Deploy to Vercel**:
    ```bash
    git add .
-   git commit -m "feat: implement parent/viewer account system"
+   git commit -m \"feat: implement parent/viewer account system\"
    git push origin main
    ```
 
@@ -291,10 +290,4 @@ The app is running at: **http://localhost:3000**
 
 Access it in your browser to test all functionality!
 
----
-
-## 🎉 Implementation Complete
-
-The Parent/Viewer Account System is now fully functional and production-ready. This is the 12th and final feature before the full production push!
-
-**Next Steps**: Deploy to production, configure email service, and start inviting parents!
+---\n\n## 🎉 Implementation Complete\n\nThe Parent/Viewer Account System is now fully functional and production-ready. This is the 12th and final feature before the full production push!\n\n**Next Steps**: Deploy to production, configure email service, and start inviting parents!\n
