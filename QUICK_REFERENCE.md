@@ -63,58 +63,58 @@
 
 ### Add a New Player
 1. Go to **Roster** tab
-2. Click **"Add Player"**
+2. Click **\"Add Player\"**
 3. Fill in details (jersey, name, positions, division)
-4. Click **"Save Changes"**
+4. Click **\"Save Changes\"**
 
 ### Schedule a Game
 1. Go to **Schedule** tab
-2. Click **"Add Game"**
+2. Click **\"Add Game\"**
 3. Enter date, opponent, location, field, time
-4. Click **"Add Game"**
+4. Click **\"Add Game\"**
 
 ### Award MVP
 1. Go to **Schedule** tab
 2. Find the game
-3. Click **"MVP"** button
+3. Click **\"MVP\"** button
 4. Select player and award type
 5. Enter reason (optional)
-6. Click **"Award"**
+6. Click **\"Award\"**
 
 ### Add Game Notes
 1. Go to **Schedule** tab
-2. Click **"Game Notes"** button on any game
+2. Click **\"Game Notes\"** button on any game
 3. Type coach notes
-4. Click **"Save Notes"**
+4. Click **\"Save Notes\"**
 
 ### Configure Divisions
 1. Go to **MGMT** tab
 2. Scroll to **Division Management**
-3. Click **"Add Division"**
+3. Click **\"Add Division\"**
 4. Enter name and abbreviation
-5. Click **"Add Division"**
+5. Click **\"Add Division\"**
 
 ### Configure Award Types
 1. Go to **MGMT** tab
 2. Scroll to **Awards Management**
-3. Click **"Add Award Type"**
+3. Click **\"Add Award Type\"**
 4. Enter award name and description
-5. Click **"Add Award"**
+5. Click **\"Add Award\"**
 
 ### Send Team Invite
 1. Go to **Schedule** tab
 2. Scroll to bottom (**Invite Team Members**)
-3. Click **"Send Invite"**
+3. Click **\"Send Invite\"**
 4. Enter email, select role (Parent/Player)
 5. Optional: Grant admin access (for parents)
-6. Click **"Send Invite"**
+6. Click **\"Send Invite\"**
 
 ### Finalize a Game
 1. Go to **Roster** tab with gameId parameter
 2. Generate lineup
 3. Save roster
 4. Award MVPs from Schedule page
-5. Click **"Finalize"** button in Roster
+5. Click **\"Finalize\"** button in Roster
 6. Game moves to Archive
 
 ### View Leaderboard
@@ -177,14 +177,14 @@
 
 ### Division Fields
 ```
-- Name (e.g., "Freshman")
-- Abbreviation (e.g., "FR")
+- Name (e.g., \"Freshman\")
+- Abbreviation (e.g., \"FR\")
 ```
 
 ### Award Fields
 ```
 - Player ID
-- Award Type (e.g., "MVP")
+- Award Type (e.g., \"MVP\")
 - Game ID
 - Notes/Reason
 - Awarded By (coach)
@@ -372,10 +372,10 @@ A: Not currently. LocalStorage is per-browser. Future versions will support clou
 A: Use browser DevTools → Application → LocalStorage → Export/Copy data.
 
 **Q: Can I print game cards?**
-A: Yes! Click "Print Game Cards" on the Roster page. Use browser print (Ctrl+P).
+A: Yes! Click \"Print Game Cards\" on the Roster page. Use browser print (Ctrl+P).
 
 **Q: How do I add more award types?**
-A: Go to MGMT page → Awards Management → Click "Add Award Type".
+A: Go to MGMT page → Awards Management → Click \"Add Award Type\".
 
 ---
 
