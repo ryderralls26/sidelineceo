@@ -27,8 +27,8 @@ The application now uses the following database models:
 
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
 2. Navigate to Storage → Create Database
-3. Select "Neon Postgres" (recommended for Vercel)
-4. Create a new database with a name like "sidelineceo-db"
+3. Select \"Neon Postgres\" (recommended for Vercel)
+4. Create a new database with a name like \"flagfooty-db\"
 5. Copy the DATABASE_URL connection string
 
 Alternatively, create a free database directly at [Neon.tech](https://neon.tech):
@@ -50,7 +50,7 @@ In your Vercel project settings:
 
 The application is configured to deploy automatically when pushed to the `main` branch of:
 ```
-https://github.com/ryderralls26/sidelineceo.git
+https://github.com/ryderralls26/flagfooty.git
 ```
 
 ### Step 4: Run Database Migration
@@ -73,7 +73,7 @@ Alternatively, generate the initial migration locally and push:
 ```bash
 npx prisma migrate dev --name init
 git add prisma/migrations
-git commit -m "Add initial database migration"
+git commit -m \"Add initial database migration\"
 git push origin main
 ```
 
@@ -129,7 +129,7 @@ npm install
 
 2. Set up your local database URL in `.env`:
 ```
-DATABASE_URL="your_postgres_connection_string"
+DATABASE_URL=\"your_postgres_connection_string\"
 ```
 
 3. Run migrations:
