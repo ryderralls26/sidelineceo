@@ -120,9 +120,9 @@ export function CoachCard({
           </button>
         </div>
         <h3 className="font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-wider uppercase">
-          Friday Night Lights
+          FlagFooty
         </h3>
-        <p className="text-sm text-slate-300 mt-2 font-semibold tracking-wide">Coach's Card</p>
+        <p className="text-sm text-slate-300 mt-2 font-semibold tracking-wide">Coach&apos;s Card</p>
       </div>
 
       <div className="p-4 sm:p-6">
@@ -160,7 +160,7 @@ export function CoachCard({
             />
           </div>
           <div className="space-y-1">
-            <span className="font-bold uppercase text-xs text-slate-600 tracking-wide">Coach's Name:</span>
+            <span className="font-bold uppercase text-xs text-slate-600 tracking-wide">Coach&apos;s Name:</span>
             <input
               type="text"
               value={sharedState.editableCoachName}
@@ -267,7 +267,7 @@ export function CoachCard({
         <div className="flex items-center justify-between pt-4 border-t-2 border-slate-300" style={{ printColorAdjust: 'exact', WebkitPrintColorAdjust: 'exact' } as React.CSSProperties}>
           <span className="text-xs font-semibold text-slate-700">FlagFooty</span>
           <img
-            src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.sidelinemgmt.space"
+            src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://flagfooty.app"
             alt="FlagFooty QR Code"
             width={60}
             height={60}
@@ -310,7 +310,7 @@ export function RefereeCard({ players, gameInfo, isPrintPreview, positions, line
             Print Card
           </button>
         </div>
-        <h3 className="font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-wider uppercase">Friday Night Lights</h3>
+        <h3 className="font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-wider uppercase">FlagFooty</h3>
         <p className="text-sm text-slate-300 mt-2 font-semibold tracking-wide">Official Game Card</p>
       </div>
       <div className="p-4 sm:p-6">
@@ -332,7 +332,7 @@ export function RefereeCard({ players, gameInfo, isPrintPreview, positions, line
             <p className="text-lg font-bold text-slate-900">{sharedState.teamName}</p>
           </div>
           <div className="space-y-1">
-            <span className="font-bold uppercase text-xs text-slate-600 tracking-wide">Coach's Name:</span>
+            <span className="font-bold uppercase text-xs text-slate-600 tracking-wide">Coach&apos;s Name:</span>
             <p className="text-lg font-bold text-[#16a34a]">{sharedState.editableCoachName}</p>
           </div>
           <div className="space-y-1">
@@ -398,7 +398,7 @@ export function RefereeCard({ players, gameInfo, isPrintPreview, positions, line
         </div>
         <div className="flex items-center justify-between pt-4 border-t-2 border-slate-300" style={{ printColorAdjust: 'exact', WebkitPrintColorAdjust: 'exact' } as React.CSSProperties}>
           <span className="text-xs font-semibold text-slate-700">FlagFooty</span>
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.sidelinemgmt.space" alt="FlagFooty QR Code" width={60} height={60} />
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://flagfooty.app" alt="FlagFooty QR Code" width={60} height={60} />
         </div>
       </div>
     </div>
