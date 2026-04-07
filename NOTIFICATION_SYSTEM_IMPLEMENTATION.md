@@ -1,7 +1,7 @@
 # In-App Notification System Implementation
 
 ## Overview
-Successfully implemented a comprehensive in-app notification system for the Velox Launch Landing Page with real-time polling, notification bell UI, and dashboard integration.
+Successfully implemented a comprehensive in-app notification system for the FlagFooty Landing Page with real-time polling, notification bell UI, and dashboard integration.
 
 ## Features Implemented
 
