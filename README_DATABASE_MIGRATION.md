@@ -4,7 +4,7 @@
 
 Your FlagFooty platform has been successfully migrated from **localStorage** to **Vercel Postgres** with **Prisma ORM** and **Next.js Server Actions**.
 
-**All code has been pushed to GitHub**: https://github.com/ryderralls26/sidelineceo
+**All code has been pushed to GitHub**: https://github.com/ryderralls26/flagfooty
 
 ---
 
@@ -19,8 +19,8 @@ Your FlagFooty platform has been successfully migrated from **localStorage** to 
 ### 2️⃣ Update Environment Variables (2 min)
 Open `.env.local` and replace the placeholder values with your real credentials from Vercel:
 ```bash
-DATABASE_URL="postgres://default:YOUR_REAL_PASSWORD@..."
-POSTGRES_PRISMA_URL="postgres://default:YOUR_REAL_PASSWORD@..."
+DATABASE_URL=\"postgres://default:YOUR_REAL_PASSWORD@...\"
+POSTGRES_PRISMA_URL=\"postgres://default:YOUR_REAL_PASSWORD@...\"
 # ... and all the others
 ```
 
