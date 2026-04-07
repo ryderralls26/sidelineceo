@@ -2,7 +2,7 @@
 
 ## Summary
 
-The Velox Launch (Sideline CEO) application has been successfully migrated from LocalStorage to a persistent Vercel Postgres database. All changes have been pushed to GitHub and are ready for production deployment.
+The Velox Launch (FlagFooty) application has been successfully migrated from LocalStorage to a persistent Vercel Postgres database. All changes have been pushed to GitHub and are ready for production deployment.
 
 ## ✅ What Was Completed
 
@@ -68,7 +68,7 @@ All data is permanently stored in PostgreSQL:
 - ✅ `DEPLOYMENT_COMPLETE.md` - This summary document
 
 ### 6. GitHub Deployment
-- ✅ Code pushed to: `https://github.com/ryderralls26/sidelineceo.git`
+- ✅ Code pushed to: `https://github.com/ryderralls26/flagfooty.git`
 - ✅ Branch: `main`
 - ✅ Status: Ready for Vercel deployment
 
@@ -77,8 +77,8 @@ All data is permanently stored in PostgreSQL:
 ### Step 1: Create Database (5 minutes)
 1. Log into Vercel Dashboard
 2. Go to Storage → Create Database
-3. Select "Neon Postgres"
-4. Name it "sidelineceo-db"
+3. Select \"Neon Postgres\"
+4. Name it \"flagfooty-db\"
 5. Copy the `DATABASE_URL` connection string
 
 ### Step 2: Configure Environment Variables (2 minutes)
@@ -240,7 +240,7 @@ The GitHub push will trigger Vercel's automatic deployment, and your site will b
 
 ---
 
-**Repository**: https://github.com/ryderralls26/sidelineceo.git
+**Repository**: https://github.com/ryderralls26/flagfooty.git
 **Branch**: main
 **Status**: ✅ Ready for Production
 **Database**: Pending setup (5 minutes)
