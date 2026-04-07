@@ -38,7 +38,7 @@ This document outlines the implementation of Security & Authentication features 
 
 ### Middleware Logic
 
-1. Checks for valid session cookie (`velox_session`)
+1. Checks for valid session cookie (`flagfooty_session`)
 2. If no session exists, redirects to `/login?redirect=[original-path]`
 3. If session exists but email is not verified, redirects to `/verify-email`
 4. If session is valid and email verified, allows access
