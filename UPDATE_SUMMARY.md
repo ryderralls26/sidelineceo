@@ -57,7 +57,7 @@ When no teams exist:
 
 ---
 
-### 2. ROSTER PAGE BEHAVIOR
+## 2. ROSTER PAGE BEHAVIOR
 
 #### ✅ Cleared Pre-filled Values
 - **DEFAULT_PLAYERS:** Changed from 4 sample players to empty array
@@ -74,7 +74,7 @@ When no teams exist:
 
 ---
 
-### 3. OFFICIAL GAME CARDS (COACH'S CARD)
+## 3. OFFICIAL GAME CARDS (COACH'S CARD)
 
 #### ✅ Renamed from "Line-Up Card"
 - **Header Text Changed:** "Line-Up Card" → "Coach's Card"
@@ -99,7 +99,7 @@ The Coach's Card includes editable fields:
 
 ---
 
-### 4. PDF PRINTING - 4 CARDS PER PAGE
+## 4. PDF PRINTING - 4 CARDS PER PAGE
 
 #### ✅ Updated Print Layout
 **Format:** 8.5" x 11" portrait orientation with EXACTLY 4 cards per page
