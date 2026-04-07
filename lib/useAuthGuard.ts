@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
-const SCOUT_MODE_KEY = 'velox_scout_mode_dismissed';
+const SCOUT_MODE_KEY = 'flagfooty_scout_mode_dismissed';
 
 export function useAuthGuard() {
   const { isAuthenticated } = useAuth();
