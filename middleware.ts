@@ -14,7 +14,7 @@ export const config = {
   ],
 };
 
-const SESSION_COOKIE_NAME = 'velox_session';
+const SESSION_COOKIE_NAME = 'flagfooty_session';
 
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
