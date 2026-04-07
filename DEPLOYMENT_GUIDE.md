@@ -45,14 +45,14 @@ Your authentication system has been successfully migrated from localStorage to a
 3. **Copy Environment Variables**
    Vercel will display environment variables like:
    ```
-   POSTGRES_URL=\"postgres://default:...\"
-   POSTGRES_PRISMA_URL=\"postgres://default:...?pgbouncer=true\"
-   POSTGRES_URL_NO_SSL=\"postgres://default:...\"
-   POSTGRES_URL_NON_POOLING=\"postgres://default:...\"
-   POSTGRES_USER=\"default\"
-   POSTGRES_HOST=\"...\"
-   POSTGRES_PASSWORD=\"...\"
-   POSTGRES_DATABASE=\"verceldb\"
+   POSTGRES_URL="postgres://default:..."
+   POSTGRES_PRISMA_URL="postgres://default:...?pgbouncer=true"
+   POSTGRES_URL_NO_SSL="postgres://default:..."
+   POSTGRES_URL_NON_POOLING="postgres://default:..."
+   POSTGRES_USER="default"
+   POSTGRES_HOST="..."
+   POSTGRES_PASSWORD="..."
+   POSTGRES_DATABASE="verceldb"
    ```
 
 4. **These are automatically added to your Vercel project!**
@@ -65,7 +65,7 @@ Since your code is already pushed to GitHub, deployment is automatic:
 
 1. **Connect GitHub to Vercel** (if not already)
    - Go to https://vercel.com/new
-   - Click \"Import Git Repository\"
+   - Click "Import Git Repository"
    - Select `ryderralls26/flagfooty`
    - Click **Import**
 
@@ -172,7 +172,7 @@ Make sure these are set in Vercel (auto-added when you create Postgres):
 
 ## 🔧 Troubleshooting
 
-### Issue: \"PrismaClient is unable to connect\"
+### Issue: "PrismaClient is unable to connect"
 
 **Solution**: Make sure you ran `prisma migrate deploy` after creating the database.
 
@@ -181,7 +181,7 @@ vercel env pull .env.local
 npx prisma migrate deploy
 ```
 
-### Issue: \"User.create() is not a function\"
+### Issue: "User.create() is not a function"
 
 **Solution**: Regenerate Prisma Client:
 
@@ -189,20 +189,20 @@ npx prisma migrate deploy
 npx prisma generate
 ```
 
-### Issue: \"Session cookie not persisting\"
+### Issue: "Session cookie not persisting"
 
 **Solution**:
 - Make sure your Vercel deployment is using HTTPS (it should be automatic)
 - Check that cookies are enabled in your browser
 - In production, cookies will be secure by default
 
-### Issue: Build fails with \"Cannot find module '@prisma/client'\"
+### Issue: Build fails with "Cannot find module '@prisma/client'"
 
 **Solution**: Add this to your `package.json`:
 
 ```json
-\"scripts\": {
-  \"build\": \"prisma generate && next build\"
+"scripts": {
+  "build": "prisma generate && next build"
 }
 ```
 
