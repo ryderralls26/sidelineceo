@@ -11,7 +11,7 @@ interface TeamContextType {
 
 const TeamContext = createContext<TeamContextType | undefined>(undefined)
 
-const STORAGE_KEY = 'sidelineCEO_activeTeam'
+const STORAGE_KEY = 'flagfooty_activeTeam'
 
 interface TeamProviderProps {
   children: ReactNode
