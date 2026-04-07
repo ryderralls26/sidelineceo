@@ -1,4 +1,4 @@
-# Database Migration Guide - Velox Launch
+# Database Migration Guide - FlagFooty
 
 ## Overview
 This application has been migrated from LocalStorage to a persistent Vercel Postgres (Neon) database using Prisma ORM.
