@@ -1,4 +1,4 @@
-# Deployment Guide - Velox Launch (FlagFooty)
+# Deployment Guide - FlagFooty (FlagFooty)
 
 ## ✅ What's Been Completed
 
@@ -251,4 +251,8 @@ After deployment, verify:
    - Protect against brute force attacks
    - Use Vercel Edge Config or Upstash Redis
 
----\n\n**Repository**: https://github.com/ryderralls26/flagfooty.git\n**Status**: ✅ Ready for deployment\n**Last Updated**: April 2, 2026\n
+---
+
+**Repository**: https://github.com/ryderralls26/flagfooty.git
+**Status**: ✅ Ready for deployment
+**Last Updated**: April 2, 2026
